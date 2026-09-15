@@ -1,0 +1,18 @@
+<mvc:View controllerName="dispatcherns.dispatcherproj.controller.App"
+    displayBlock="false"
+    width="100%"
+    xmlns:mvc="sap.ui.core.mvc"
+        height="100%"
+		xmlns="sap.gantt.simple"
+		xmlns:axistime="sap.gantt.axistime"
+		xmlns:config="sap.gantt.config"		
+		xmlns:shapes="sap.gantt.simple.shapes"
+		xmlns:table="sap.ui.table"
+		xmlns:m="sap.m"
+		xmlns:core="sap.ui.core"
+		xmlns:rm="sap.ui.table.rowmodes"
+        >
+    <m:App id="app">
+        
+    </m:App>
+</mvc:View>

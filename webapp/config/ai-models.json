@@ -1,9 +1,0 @@
-{
-  "activeProvider": "openrouter",
-  "providers": {
-    "openrouter": {
-      "model": "openrouter/free",        
-      "endpoint": "https://openrouter.ai/api/v1/chat/completions"
-    }
-  }
-}

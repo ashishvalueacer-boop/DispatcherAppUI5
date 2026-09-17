@@ -48,16 +48,16 @@
 				<rowSettingsTemplate>
 					<gnt2:GanttRowSettings rowId="{data>RequirementID}">
 						<gnt2:shapes1>
-							<core:Fragment fragmentName="dispatcherns.dispatcherproj.view.Requirement" type="XML"/>
+							<!-- <core:Fragment fragmentName="dispatcherns.dispatcherproj.view.Requirement" type="XML"/> -->
 						</gnt2:shapes1>
 					</gnt2:GanttRowSettings>
 				</rowSettingsTemplate>
-				<core:Fragment fragmentName="dispatcherns.dispatcherproj.view.SharedTableColumn" type="XML"/>
+				<!-- <core:Fragment fragmentName="dispatcherns.dispatcherproj.view.SharedTableColumn" type="XML"/> -->
 			</Table>
 		</gnt2:table>
 
 		<gnt2:axisTimeStrategy>
-			<core:Fragment fragmentName="dispatcherns.dispatcherproj.view.AxisTimeStrategy" type="XML"/>
+			<!-- <core:Fragment fragmentName="dispatcherns.dispatcherproj.view.AxisTimeStrategy" type="XML"/> -->
 		</gnt2:axisTimeStrategy>
 	</gnt2:GanttChartWithTable>
 </core:FragmentDefinition>

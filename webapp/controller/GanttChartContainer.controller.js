@@ -15,14 +15,18 @@ sap.ui.define([
 
 		onInit: function () {
 
-			var oDataModel = this.getView().getModel("data");
+			var oDataModel = this.getOwnerComponent().getModel("data");
+			//console.log(oDataModel.getProperty("/Requirements"));
 			// var aDeferredGroups = oDataModel.getDeferredGroups();
 			// aDeferredGroups = aDeferredGroups.concat(["deferred"]);
 			// oDataModel.setDeferredGroups(aDeferredGroups);
 
 
+			var m = this.getOwnerComponent().getModel("data");
+			if (!m) return;
+
 			this.iNewFOCount = 0;
-			var oGantt1 = this.getView().byId("FreightOrderAndFreightUnit");
+			var oGantt1 = this.getView().byId("FreightOrder");
 			var oFullScreenButton1 = new sap.m.Button({
 				icon: "sap-icon://full-screen",
 				type: "Transparent",
@@ -38,7 +42,7 @@ sap.ui.define([
 					}
 				}
 			});
-
+			/********************************************************************************************* */
 			var oGantt2 = this.getView().byId("Truck");
 			var oFullScreenButton2 = new sap.m.Button({
 				icon: "sap-icon://full-screen",
@@ -55,7 +59,7 @@ sap.ui.define([
 					}
 				}
 			});
-
+			/********************************************************************************************* */
 			var oGantt3 = this.getView().byId("Driver");
 			var oFullScreenButton3 = new sap.m.Button({
 				icon: "sap-icon://full-screen",
@@ -73,7 +77,7 @@ sap.ui.define([
 				}
 			});
 		},
-
+		/********************************************************************************************** */
 		onToggleFullScreen: function (oGantt, bShowToolbar, oButton) {
 			oGantt.toggleFullScreen(bShowToolbar, oButton);
 			if (oGantt.fullScreenMode()) {
@@ -254,11 +258,18 @@ sap.ui.define([
 			var legendContainer = oGanttChartContainer.getToolbar().getLegendContainer();
 			var sKey = oEvent.getParameter("selectedItem").getKey();
 			switch (sKey) {
+				case "ReqAndResAndDrv":
+					legendContainer.getLegends()[0].setProperty("visible", true, true);
+					legendContainer.getLegends()[0].getItems()[1].setProperty("visible", true, true);
+					legendContainer.getLegends()[1].setProperty("visible", true, true);
+					this.getGanttInstance("FreightOrder", "ReqAndResAndDrv", oGanttChartContainer);
+					 break;
 				case "ReqAndRes":
 					legendContainer.getLegends()[0].setProperty("visible", true, true);
 					legendContainer.getLegends()[0].getItems()[1].setProperty("visible", true, true);
 					legendContainer.getLegends()[1].setProperty("visible", true, true);
-					this.getGanttInstance("FreightOrderAndFreightUnit", "ReqAndRes", oGanttChartContainer);
+					this.getGanttInstance("FreightOrder", "ReqAndRes", oGanttChartContainer);
+					//this.getGanttInstance("FreightOrderAndFreightUnit", "ReqAndRes", oGanttChartContainer);
 					break;
 				case "Resource":
 					legendContainer.getLegends()[0].getItems()[1].setProperty("visible", false, true);
@@ -523,6 +534,29 @@ sap.ui.define([
 			if (oContainer) {
 				oContainer.showWrapper(this._toggleoverlayforcontainer);
 			}
+		},
+		dateToObject: function (sDate) {
+
+			if (!sDate) {
+				return null;
+			}
+
+			var oMatch = sDate.match(
+				/^(\d{4})-(\d{2})-(\d{2})T(\d{2})(\d{2})(\d{2})Z$/
+			);
+
+			if (!oMatch) {
+				return null;
+			}
+
+			return new Date(Date.UTC(
+				Number(oMatch[1]),
+				Number(oMatch[2]) - 1,
+				Number(oMatch[3]),
+				Number(oMatch[4]),
+				Number(oMatch[5]),
+				Number(oMatch[6])
+			));
 		}
 
 	});

@@ -1,21 +1,24 @@
 <mvc:View height="100%"		
-    	width="100%"
+    	  width="100%"
+		  displayBlock="true"
           controllerName="dispatcherns.dispatcherproj.controller.GanttChartContainer"
           xmlns="sap.ui.table"
           xmlns:mvc="sap.ui.core.mvc"
           xmlns:core="sap.ui.core"
           xmlns:m="sap.m"
           xmlns:gnt2="sap.gantt.simple">
-	<m:Page title="Demokit: Transportation Management Planning with Gantt Chart 2.0" showNavButton="true" contentOnlyBusy="true">
+	<m:Page title="Dispatcher Cockpit for Driver and Vehicle assignment with Freight order" showNavButton="true" contentOnlyBusy="true">
 		<gnt2:GanttChartContainer id="container" enableTimeScrollSync="true" enableAutoFocusOnZoom="true">
 			<gnt2:toolbar>
 				<gnt2:ContainerToolbar id="toolbar" design="Auto" showBirdEyeButton="true" showLegendButton="true" ganttSidePanel=".onGanttSidePanel" showSearchButton="false">
 					<m:Select id="layoutSelect" forceSelection="false" selectedKey="ReqAndRes" change=".onLayoutChange">
-						<m:items>
+						<m:items>						
+							<core:Item key="ReqAndResAndDrv" text="Requirement And Resource and Driver"/>
+							<core:Item key="ReqAndDrv" text="Requirement And Driver"/>
 							<core:Item key="ReqAndRes" text="Requirement And Resource"/>
-							<core:Item key="Resource" text="Resource"/>
 							<core:Item key="Requirement" text="Requirement"/>
-							<core:Item key="Drivers" text="Drivers"/>
+							<!-- <core:Item key="Resource" text="Resource"/>							
+							<core:Item key="Drivers" text="Drivers"/> -->
 						</m:items>
 					</m:Select>
 					<gnt2:legendContainer>
@@ -38,12 +41,19 @@
 							</gnt2:ListLegend>
 						</gnt2:LegendContainer>
 					</gnt2:legendContainer>
-					<m:Button text="Display overlay" press=".onDisplayOverlay"/> 
+					<!-- <m:Button text="Display overlay" press=".onDisplayOverlay"/>  -->
 				</gnt2:ContainerToolbar>
 			</gnt2:toolbar>
-			<core:Fragment fragmentName="dispatcherns.dispatcherproj.view.FreightOrderAndFreightUnit" type="XML"/>
-			<core:Fragment fragmentName="dispatcherns.dispatcherproj.view.Truck" type="XML"/>
-			<core:Fragment fragmentName="dispatcherns.dispatcherproj.view.DriverView" type="XML"/>
+			<!-- ///Start of Change: 16 September 2026
+				    Release -1:0					
+					Desc:  Changed Code to replace FreightOrderAndFreightUnit with FreightOrder View -  					
+					-->
+			<!-- <core:Fragment fragmentName="dispatcherns.dispatcherproj.view.FreightOrderAndFreightUnit" type="XML"/> -->			
+			<core:Fragment fragmentName="dispatcherns.dispatcherproj.view.FreightOrder" type="XML"/>
+			<!--End of Change: 16 September 2026 !-->
+
+			 <core:Fragment fragmentName="dispatcherns.dispatcherproj.view.Truck" type="XML"/> 
+			 <core:Fragment fragmentName="dispatcherns.dispatcherproj.view.DriverView" type="XML"/>  
 			
 		</gnt2:GanttChartContainer>
 	</m:Page>

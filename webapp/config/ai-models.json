@@ -1,0 +1,10 @@
+{
+  "activeProvider": "openrouter",
+  "providers": {
+    "openrouter": {
+      "model": "openrouter/free",  
+      "apiKey": "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",
+      "endpoint": "https://openrouter.ai/api/v1/chat/completions"
+    }
+  }
+}

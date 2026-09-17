@@ -19,14 +19,7 @@
 				enableColumnReordering="true"
 				fixedColumnCount = "1"
 				rows="{
-					path: 'data>/Requirements',
-					filters: [
-						{
-							path: 'Type',
-							operator: 'EQ',
-							value1: 'FO'
-						}
-					],
+					path: 'data>/Requirements',					
 					parameters: {
 						operationMode: 'Server'
 					}
@@ -35,23 +28,26 @@
 					<m:OverflowToolbar>
 						<m:Select forceSelection="false" selectedKey="FO" change=".onHierarchyChange">
 							<m:items>
-								<core:ListItem key="FOFU" text="Freight Order and Freight Unit"/>
+								<!-- <core:ListItem key="FOFU" text="Freight Order and Freight Unit"/> -->
 								<core:ListItem key="FO" text="Freight Order"/>
-								<core:ListItem key="FU" text="Freight Unit"/>
+								<!-- <core:ListItem key="FU" text="Freight Unit"/> -->
 							</m:items>
 						</m:Select>
-						<m:Button text="Create" type="Transparent" press=".onCreate"/>
-						<m:Button text="Delete" type="Transparent" press=".onDelete"/>
+						<!-- <m:Button text="Create" type="Transparent" press=".onCreate"/>
+						<m:Button text="Delete" type="Transparent" press=".onDelete"/> -->
 					</m:OverflowToolbar>
 				</extension>
 				<rowMode>
 					<rm:Auto minRowCount="1"/>
 				</rowMode>
 				<rowSettingsTemplate>
-					<gnt2:GanttRowSettings rowId="{data>RequirementID}">
+					<gnt2:GanttRowSettings rowId="{data>id}">
 						<gnt2:shapes1>
 							<core:Fragment fragmentName="dispatcherns.dispatcherproj.view.Requirement" type="XML"/>
 						</gnt2:shapes1>
+						<gnt2:calendars>
+							<gnt2:BaseCalendar  shapeId="Weekend" calendarName="Weekend" fill="#b9d3e4"/>
+						</gnt2:calendars>
 					</gnt2:GanttRowSettings>
 				</rowSettingsTemplate>
 				<core:Fragment fragmentName="dispatcherns.dispatcherproj.view.SharedTableColumn" type="XML"/>
@@ -59,7 +55,7 @@
 		</gnt2:table>
 
 		<gnt2:axisTimeStrategy>
-			<core:Fragment fragmentName="dispatcherns.dispatcherproj.view.AxisTimeStrategy" type="XML"/>
+			<core:Fragment fragmentName="dispatcherns.dispatcherproj.view.AxisTimeStrategy" type="XML"/> 
 		</gnt2:axisTimeStrategy>
 	</gnt2:GanttChartWithTable>
 </core:FragmentDefinition>

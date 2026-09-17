@@ -45,15 +45,15 @@
 					<gnt2:GanttRowSettings
 						rowId="{data>DriverId}"
 						shapes1="{
-							path: 'data>Drivers',
+							path: 'data>ResourceToDrivers',
 							templateShareable:true
 						}"
-						shapes2="{
-							path: 'data>Drivers',
-							templateShareable:true
-						}">
+						>
+						<!-- <gnt2:calendars>
+							<gnt2:BaseCalendar  shapeId="Weekend" calendarName="Weekend" fill="#ceb3b3"/>
+						</gnt2:calendars> -->
 						<gnt2:calendars>
-							<gnt2:BaseCalendar shapeId="{data>CalendarName}" calendarName="{data>CalendarName}" fill="#000"/>
+							<gnt2:BaseCalendar shapeId="{data>CalendarName}" calendarName="{data>CalendarName}" fill="#b9d3e4"/>
 						</gnt2:calendars>
 						<gnt2:shapes1>
 							<gnt2:BaseRectangle
@@ -62,8 +62,9 @@
 									countInBirdEye="true" height="25"
 									title = "{
 												parts:[
-													{ path: 'data>DriverId' }
-													
+													{ path: 'data>RequirementID' },
+													{ path:'data>SourceLocation' },
+													{ path:'data>DestinationLocation' }
 												],
 												formatter: '.formatter.orderTitle'
 											}"
@@ -104,36 +105,25 @@
 							<m:Label text="{data>DriverId}"/>
 						</template>
 					</Column>
-					<!-- <Column sortProperty="Description" filterProperty="Description">
-						<m:Text text="Description"/>
+					<Column sortProperty="Name" filterProperty="name">
+						<m:Text text="First Name"/>
 						<template>
-							<m:Label text="{data>Description}"/>
+							<m:Label text="{data>name}"/>
 						</template>
 					</Column>
-					<Column sortProperty="Capacity" filterProperty="Capacity">
-						<m:Text text="Capacity" />
+					<Column sortProperty="name" filterProperty="name">
+						<m:Text text="Last Name" />
 						<template>
-							<m:Label text="{data>Capacity}"/>
+							<m:Label text="{data>name}"/>
 						</template>
 					</Column>
-					<Column sortProperty="UintOfMeasure" filterProperty="UintOfMeasure">
-						<m:Text text="Unit of Measure" />
-						<template>
-							<m:Label text="{data>UintOfMeasure}"/>
-						</template>
-					</Column>
-					<Column sortProperty="MaximumUtilization" filterProperty="MaximumUtilization">
-						<m:Text text="Maximum Utilization" />
-						<template>
-							<m:Label text="{data>MaximumUtilization}"/>
-						</template>
-					</Column> -->
+					
 				</columns>
 			</Table>
 		</gnt2:table>
 
 		<gnt2:shapeSchemes>
-			<gnt2:ShapeScheme key="driver" primary="true"/>
+			<gnt2:ShapeScheme key="truck" primary="true"/>
 			<gnt2:ShapeScheme key="truck_to_ulc" rowSpan="2"/>
 		</gnt2:shapeSchemes>
 

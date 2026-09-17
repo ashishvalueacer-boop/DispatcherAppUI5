@@ -43,19 +43,16 @@
 				</rowMode>
 				<rowSettingsTemplate>
 					<gnt2:GanttRowSettings
-						rowId="{data>ResourceID}"
-						shapes1="{
-							path: 'data>ResourceToRequirements',
-							templateShareable:true
-						}"
-						shapes2="{
-							path: 'data>ResourceToRequirements',
-							templateShareable:true
-						}">
+						rowId="{data>resourceId}"
+						shapes1=""
+						shapes2="">
 						<gnt2:calendars>
-							<gnt2:BaseCalendar shapeId="{data>CalendarName}" calendarName="{data>CalendarName}" fill="#000"/>
+							<gnt2:BaseCalendar  shapeId="Weekend" calendarName="Weekend" fill="#b9d3e4"/>
 						</gnt2:calendars>
-						<gnt2:shapes1>
+						<!-- <gnt2:calendars>
+							<gnt2:BaseCalendar shapeId="{data>CalendarName}" calendarName="{data>CalendarName}" fill="#000"/>
+						</gnt2:calendars>  -->
+						 <gnt2:shapes1>
 							<gnt2:BaseRectangle
 									shapeId="{data>RequirementID}"
 									time="{data>StartTime}" endTime="{data>EndTime}" fill="#99D101"
@@ -95,40 +92,40 @@
 									</gnt2:UtilizationLineChart>
 								</demokit:utilizationLine>
 							</demokit:UtilizationGroup>
-						</gnt2:shapes2>
+						</gnt2:shapes2> 
 					</gnt2:GanttRowSettings>
 				</rowSettingsTemplate>
 				<columns>
-					<Column sortProperty="ResourceID" filterProperty="ResourceID">
+					<Column sortProperty="resourceId" filterProperty="resourceId">
 						<m:Text text="Resource ID"/>
 						<template>
-							<m:Label text="{data>ResourceID}"/>
+							<m:Label text="{data>resourceId}"/>
 						</template>
 					</Column>
-					<Column sortProperty="Description" filterProperty="Description">
-						<m:Text text="Description"/>
+					<!-- <Column sortProperty="resourceType" filterProperty="resourceType">
+						<m:Text text="Resource Type"/>
 						<template>
-							<m:Label text="{data>Description}"/>
+							<m:Label text="{data>resourceType}"/>
 						</template>
-					</Column>
-					<Column sortProperty="Capacity" filterProperty="Capacity">
-						<m:Text text="Capacity" />
+					</Column> -->
+					<Column sortProperty="description" filterProperty="description">
+						<m:Text text="Resource Description" />
 						<template>
-							<m:Label text="{data>Capacity}"/>
+							<m:Label text="{data>description}"/>
 						</template>
 					</Column>
-					<Column sortProperty="UintOfMeasure" filterProperty="UintOfMeasure">
-						<m:Text text="Unit of Measure" />
+					<!-- <Column sortProperty="workCalendarCode" filterProperty="workCalendarCode">
+						<m:Text text="Work Calendar Code" />
 						<template>
-							<m:Label text="{data>UintOfMeasure}"/>
+							<m:Label text="{data>workCalendarCode}"/>
 						</template>
-					</Column>
-					<Column sortProperty="MaximumUtilization" filterProperty="MaximumUtilization">
+					</Column> -->
+					<!-- <Column sortProperty="MaximumUtilization" filterProperty="MaximumUtilization">
 						<m:Text text="Maximum Utilization" />
 						<template>
 							<m:Label text="{data>MaximumUtilization}"/>
 						</template>
-					</Column>
+					</Column> -->
 				</columns>
 			</Table>
 		</gnt2:table>
@@ -142,13 +139,13 @@
 			<core:Fragment fragmentName="dispatcherns.dispatcherproj.view.AxisTimeStrategy" type="XML"/>
 		</gnt2:axisTimeStrategy>
 
-		<gnt2:calendarDef>
+		<!-- <gnt2:calendarDef>
 			<gnt-cal:CalendarDefs defs="{ path:'calc>/'}">
 				<gnt-cal:Calendar key="{calc>CalendarId}" timeIntervals="{path:'calc>Intervals', templateShareable: true}" backgroundColor="{= ${calc>CalendarId} === 'nwt' ? '#666' : '#ccc' }">
 					<gnt-cal:TimeInterval startTime="{calc>StartDateTime}" endTime="{calc>EndDateTime}"/>
 				</gnt-cal:Calendar>
 			</gnt-cal:CalendarDefs>
-		</gnt2:calendarDef>
+		</gnt2:calendarDef> -->
 
 	</gnt2:GanttChartWithTable>
 </core:FragmentDefinition>

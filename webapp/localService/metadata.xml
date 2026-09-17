@@ -17,8 +17,8 @@
 				<Property Name="ResourceID" Type="Edm.String" Nullable="true" />
 				<Property Name="Type" Type="Edm.String" Nullable="false" />
 				<Property Name="PlanStatus" Type="Edm.String" Nullable="false" />
-				<Property Name="StartTime" Type="Edm.DateTime" Nullable="false" />
-				<Property Name="EndTime" Type="Edm.DateTime" Nullable="false" />
+				<Property Name="StartTime" Type="Edm.String" Nullable="false" />
+				<Property Name="EndTime" Type="Edm.String" Nullable="false" />
 				<Property Name="SourceLocation" Type="Edm.String" Nullable="false" />
 				<Property Name="DestinationLocation" Type="Edm.String" Nullable="false" />
 				<Property Name="ParentResourceID" Type="Edm.String" Nullable="true"/>
@@ -90,6 +90,22 @@
 				</ReferentialConstraint>
 			</Association>
 
+			<EntityType Name="Driver">
+				<Key>
+					<PropertyRef Name="DriverId" />
+				</Key>
+				<Property Name="DriverId" Type="Edm.String" Nullable="false"/>
+				<Property Name="Name" Type="Edm.String" Nullable="false" />	
+				<NavigationProperty Name="DriverToResource"
+					Relationship="GANTT_CHART_ODATA_SRV.ResourceToRequirements" FromRole="FromRole_ResourceToRequirements"
+					ToRole="ToRole_ResourceToRequirements" />
+			</EntityType>
+			<!-- <Association Name="ResourceToDrivers" sap:content-version="1">
+				<End Type="GANTT_CHART_ODATA_SRV.Resource"
+					Multiplicity="1" Role="FromRole_ResourceToRequirements" />							
+			</Association> -->
+
+
 			<EntityType Name="Utilization" sap:content-version="">
 				<Key>
 					<PropertyRef Name="UtilizationID" />
@@ -109,8 +125,8 @@
 				<Property Name="UtilItemID" Type="Edm.String" Nullable="false" />
 				<Property Name="UtilizationID" Type="Edm.String" Nullable="false" />
 				<Property Name="RootRequirementID" Type="Edm.String" Nullable="false" />
-				<Property Name="StartTime" Type="Edm.DateTime" Nullable="false" />
-				<Property Name="EndTime" Type="Edm.DateTime" Nullable="false" />
+				<Property Name="StartTime" Type="Edm.String" Nullable="false" />
+				<Property Name="EndTime" Type="Edm.String" Nullable="false" />
 				<Property Name="Value" Type="Edm.Float" Nullable="false" />
 			</EntityType>
 			<Association Name="UtilizationToItems" sap:content-version="1">
@@ -131,6 +147,7 @@
 			<EntityContainer Name="GANTT_CHART_ODATA_SRV_Entities" edmanno:LazyLoadingEnabled="true" m:IsDefaultEntityContainer="true">
 				<EntitySet Name="Requirements" EntityType="GANTT_CHART_ODATA_SRV.Requirement" />
 				<EntitySet Name="Resources" EntityType="GANTT_CHART_ODATA_SRV.Resource" />
+				<EntitySet Name="Drivers" EntityType="GANTT_CHART_ODATA_SRV.Drivers" />
 				<EntitySet Name="Utilizations" EntityType="GANTT_CHART_ODATA_SRV.Utilization"/>
 				<EntitySet Name="UtilizationItems" EntityType="GANTT_CHART_ODATA_SRV.UtilizationItem"/>
 				<AssociationSet Name="OrderToUnit"

@@ -15,7 +15,7 @@
 			</m:HBox>
 		</template>
 	</Column>
-	<Column >
+	<!-- <Column >
 		<m:Text text="Resource Assignment" wrapping="false"/>
 		<template>
 			<m:HBox>
@@ -25,7 +25,7 @@
 				</m:items>
 			</m:HBox>
 		</template>
-	</Column>
+	</Column> -->
 	<Column sortProperty="Departure_Time" filterProperty="Departure_Time">
 		<m:Text text="Departure Time" wrapping="false"/>
 		<template>
@@ -49,7 +49,7 @@
 		</template>
 	</Column>
 
-	<Column sortProperty="sourceLocation" filterProperty="sourceLocation">
+	<!-- <Column sortProperty="sourceLocation" filterProperty="sourceLocation">
 		<m:Text text="Source Location" wrapping="false"/>
 		<template>
 			<m:Label text="{data>sourceLocation}"/>
@@ -61,7 +61,7 @@
 		<template>
 			<m:Label text="{data>carrier}"/>
 		</template>
-	</Column>
+	</Column> -->
 	<!-- <Column sortProperty="driver_id" filterProperty="driver_id">
 		<m:Text text="Driver Assigned" wrapping="false"/>
 		<template>

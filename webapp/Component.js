@@ -78,6 +78,7 @@ sap.ui.define([
 
                 const sStartTime = "2026-07-30T07:00:00Z";
                 const sEndTime = "2026-10-20T12:00:00Z";
+                const sDC =  "0017411710";
 
                 const [
                     _requirements,
@@ -87,10 +88,19 @@ sap.ui.define([
 
                     FreightOrderService.GetBulkfo({
                         p_start_time: sStartTime,
-                        p_end_time: sEndTime
+                        p_end_time: sEndTime,
+                        p_dc :  sDC
                     }),
-                    DriverService.GetDrv(),
-                    VehicleService.GetRes()
+                    DriverService.GetDrv({
+                        p_start_time: sStartTime,
+                        p_end_time: sEndTime,
+                        p_dc :  sDC
+                    }),
+                    VehicleService.GetRes({
+                        p_start_time: sStartTime,
+                        p_end_time: sEndTime,
+                        p_dc :  sDC
+                    })
 
                 ]);
 

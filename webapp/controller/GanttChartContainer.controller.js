@@ -61,22 +61,22 @@ sap.ui.define([
 				}
 			});
 			/********************************************************************************************* */
-			var oGantt3 = this.getView().byId("Driver");
-			var oFullScreenButton3 = new sap.m.Button({
-				icon: "sap-icon://full-screen",
-				type: "Transparent",
-				press: function () {
-					this.onToggleFullScreen(oGantt3, true, oFullScreenButton3);
-				}.bind(this)
-			});
-			oGantt3.addEventDelegate({
-				onAfterRendering: function () {
-					var oGanttOverflowToolbar = oGantt3.getChartOverflowToolbar();
-					if (oGanttOverflowToolbar) {
-						oGanttOverflowToolbar.addContent(oFullScreenButton3);
-					}
-				}
-			});
+			// var oGantt3 = this.getView().byId("Driver");
+			// var oFullScreenButton3 = new sap.m.Button({
+			// 	icon: "sap-icon://full-screen",
+			// 	type: "Transparent",
+			// 	press: function () {
+			// 		this.onToggleFullScreen(oGantt3, true, oFullScreenButton3);
+			// 	}.bind(this)
+			// });
+			// oGantt3.addEventDelegate({
+			// 	onAfterRendering: function () {
+			// 		var oGanttOverflowToolbar = oGantt3.getChartOverflowToolbar();
+			// 		if (oGanttOverflowToolbar) {
+			// 			oGanttOverflowToolbar.addContent(oFullScreenButton3);
+			// 		}
+			// 	}
+			// });
 		},
 		/********************************************************************************************** */
 		onToggleFullScreen: function (oGantt, bShowToolbar, oButton) {
@@ -141,11 +141,9 @@ sap.ui.define([
 						restBreaks
 					} = response.value[0].simulationResults[0];
 
-					console.log(newDepartureStart);
-					console.log(newDepartureEnd);
-					console.log(restBreaks);
-
-
+					// console.log(newDepartureStart);
+					// console.log(newDepartureEnd);
+					// console.log(restBreaks);
 
 
 					// Convert API datetime string to JS Date

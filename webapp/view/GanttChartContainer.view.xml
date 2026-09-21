@@ -53,7 +53,7 @@
 			<!--End of Change: 16 September 2026 !-->
 
 			 <core:Fragment fragmentName="dispatcherns.dispatcherproj.view.Truck" type="XML"/> 
-			 <core:Fragment fragmentName="dispatcherns.dispatcherproj.view.DriverView" type="XML"/>  
+			 <!-- <core:Fragment fragmentName="dispatcherns.dispatcherproj.view.DriverView" type="XML"/>   -->
 			
 		</gnt2:GanttChartContainer>
 	</m:Page>

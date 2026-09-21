@@ -29,6 +29,10 @@ sap.ui.define([
 
         init() {
             // call the base component's init function
+
+            // this._adjustTableWidth();
+            // window.addEventListener("resize", this._adjustTableWidth.bind(this));
+
             UIComponent.prototype.init.apply(this, arguments);
 
             const oDataModel = new sap.ui.model.json.JSONModel({
@@ -72,17 +76,25 @@ sap.ui.define([
         async loadMasterData() {
             try {
 
+                const sStartTime = "2026-07-30T07:00:00Z";
+                const sEndTime = "2026-10-20T12:00:00Z";
+
                 const [
                     _requirements,
                     _drivers,
                     _resources
                 ] = await Promise.all([
-                    FreightOrderService.GetBulkfo(),
+
+                    FreightOrderService.GetBulkfo({
+                        p_start_time: sStartTime,
+                        p_end_time: sEndTime
+                    }),
                     DriverService.GetDrv(),
                     VehicleService.GetRes()
-                ]);              
 
-                
+                ]);
+
+
                 this.setModel(
                     new JSONModel({
                         Requirements: _requirements?.value || [],
@@ -98,7 +110,21 @@ sap.ui.define([
                     (error.message || error.toString())
                 );
             }
-        }
+        },
+
+        // _adjustTableWidth: function () {
+        //     var oGantt = this.byId("container");
+
+        //     var iScreenWidth = window.innerWidth;
+
+        //     if (iScreenWidth > 1600) {
+        //         oGantt.setTableWidth("500px");
+        //     } else if (iScreenWidth > 1200) {
+        //         oGantt.setTableWidth("400px");
+        //     } else {
+        //         oGantt.setTableWidth("300px");
+        //     }
+        // }
 
 
     });

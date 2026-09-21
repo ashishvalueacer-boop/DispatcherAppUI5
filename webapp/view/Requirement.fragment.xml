@@ -4,46 +4,35 @@
 	xmlns:core="sap.ui.core"
 	xmlns:axistime="sap.gantt.axistime"
 	xmlns:config="sap.gantt.config"
-	xmlns:gnt2="sap.gantt.simple">
+	xmlns:gnt2="sap.gantt.simple"
+	xmlns:gnt-cal="sap.gantt.def.cal"
+	xmlns:demokit="dispatcherns.dispatcherproj"
+	xmlns:rm="sap.ui.table.rowmodes"
+	core:require="{
+		formatMessage: 'sap/base/strings/formatMessage'
+	}"
+	>
 	<gnt2:BaseRectangle 
-		shapeId="{data>id}" countInBirdEye="true"
+		shapeId="{data>transportationOrderUUID}" countInBirdEye="true"
 		time="{
-        path: 'data>startTime',
+        path: 'data>Departure_Time',
         formatter: '.formatter.dateToObject'}"
     	endTime="{
-        path: 'data>endTime',
-        formatter: '.formatter.dateToObject'}"		
-		resizable="false" selectable="true" draggable= "true"
-		title="{data>id}" showTitle="true"
-		tooltip="{= 'Freight Order - ' + ${data>id} + '\nStart Time - ' + ${data>startTime} + '\nEnd Time - ' + ${data>endTime} }"
-		stroke="{
+        path: 'data>Arrival_Time',
+        formatter: '.formatter.dateToObject'}"				
+		resizable="false" selectable="true" draggable= "true" 
+		title="{data>id}" showTitle="true" titleColor="#FFFFFF" fill="#0038FF"
+		tooltip="{
 			parts: [
-				'FO',
-				'planned'
+				'i18n>freightOrderTooltip',
+				'data>id',
+				'data>transportationOrderUUID',				
+				'data>Departure_Time',
+				'data>Arrival_Time'
 			],
-			formatter: '.formatter.strokeColor'
-		}"
-		strokeWidth="{
-			parts: [
-				'FO',
-				'planned'
-			],
-			formatter: '.formatter.strokeWidth'
-		}"
-		strokeDasharray="{
-			parts: [
-				'FO',
-				'planned'
-			],
-			formatter: '.formatter.strokeDasharray'
-		}"
-		fill="{
-			parts: [
-				'FO',
-				'planned'
-			],
-			formatter: '.formatter.fillColor'
-		}"
+			formatter: 'formatMessage'
+	}"
+
 		/>
 
 	

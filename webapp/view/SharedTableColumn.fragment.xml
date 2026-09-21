@@ -26,10 +26,10 @@
 			</m:HBox>
 		</template>
 	</Column>
-	<Column sortProperty="startDate" filterProperty="startDate">
-		<m:Text text="Start Time" wrapping="false"/>
+	<Column sortProperty="Departure_Time" filterProperty="Departure_Time">
+		<m:Text text="Departure Time" wrapping="false"/>
 		<template>
-			<m:Label text="{data>startTime}"/>
+			<m:Label text="{data>Departure_Time}"/>
 			
 			<!-- <core:Icon src="sap-icon://{= ${data>PlanStatus} === 'planned' ? 'status-completed' : 'status-inactive'}"
 						tooltip="{= ${data>PlanStatus} === 'planned' ? 'Planned' : 'Unplanned' }"
@@ -37,10 +37,10 @@
 						color="{= ${data>PlanStatus} === 'planned' ? 'Positive' : 'Negative' }"/> -->
 		</template>
 	</Column>
-	<Column sortProperty="endDate" filterProperty="endDate">
-		<m:Text text="End Time" wrapping="false"/>
+	<Column sortProperty="Arrival_Time" filterProperty="Arrival_Time">
+		<m:Text text="Arrival Time" wrapping="false"/>
 		<template>
-			<m:Label text="{data>endTime}"/>
+			<m:Label text="{data>Arrival_Time}"/>
 			
 			<!-- <core:Icon src="sap-icon://{= ${data>PlanStatus} === 'planned' ? 'status-completed' : 'status-inactive'}"
 						tooltip="{= ${data>PlanStatus} === 'planned' ? 'Planned' : 'Unplanned' }"

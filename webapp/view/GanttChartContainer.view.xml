@@ -8,7 +8,7 @@
           xmlns:m="sap.m"
           xmlns:gnt2="sap.gantt.simple">
 	<m:Page title="Dispatcher Cockpit for Driver and Vehicle assignment with Freight order" showNavButton="true" contentOnlyBusy="true">
-		<gnt2:GanttChartContainer id="container" enableTimeScrollSync="true" enableAutoFocusOnZoom="true">
+		<gnt2:GanttChartContainer id="container" enableTimeScrollSync="true" width="100%" enableAutoFocusOnZoom="true">
 			<gnt2:toolbar>
 				<gnt2:ContainerToolbar id="toolbar" design="Auto" showBirdEyeButton="true" showLegendButton="true" ganttSidePanel=".onGanttSidePanel" showSearchButton="false">
 					<m:Select id="layoutSelect" forceSelection="false" selectedKey="ReqAndRes" change=".onLayoutChange">

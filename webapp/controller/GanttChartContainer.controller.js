@@ -4,8 +4,9 @@ sap.ui.define([
 	"../localService/mockserver",
 	"../model/formatter",
 	"sap/gantt/misc/Utility",
-	"sap/ui/core/Fragment"
-], function (Controller, JSONModel, mockserver, formatter, Utility, Fragment) {
+	"sap/ui/core/Fragment",
+	"../service/FreightOrderService",
+], function (Controller, JSONModel, mockserver, formatter, Utility, Fragment, FreightOrderService) {
 	"use strict";
 
 
@@ -89,58 +90,135 @@ sap.ui.define([
 			}
 		},
 
-		onShapeDrop: function (oEvent) {
-			var oSourceGantt = oEvent.getSource();
-			var oNewDateTime = oEvent.getParameter("newDateTime");
-			var oDraggedShapeDates = oEvent.getParameter("draggedShapeDates");
-			var sLastDraggedShapeUid = oEvent.getParameter("lastDraggedShapeUid");
+		onShapeDrop: async function (oEvent) {
 
-			var oOldStartDateTime = oDraggedShapeDates[sLastDraggedShapeUid].time;
-			var oOldEndDateTime = oDraggedShapeDates[sLastDraggedShapeUid].endTime;
-			var iMoveWidthInMs = oNewDateTime.getTime() - oOldStartDateTime.getTime();
-			if (oSourceGantt.getGhostAlignment() === sap.gantt.dragdrop.GhostAlignment.End) {
-				iMoveWidthInMs = oNewDateTime.getTime() - oOldEndDateTime.getTime();
-			}
+			try {
 
-			var getBindingContextPath = function (sShapeUid) {
-				var oParsedUid = Utility.parseUid(sShapeUid);
-				return oParsedUid.shapeDataName;
-			};
 
-			var oTargetRow = oEvent.getParameter("targetRow");
-			var oTargetObject = oTargetRow.getBindingContext("data").getObject();
-			var sTargetObjectType = oTargetObject.Type;
+				var oSourceGantt = oEvent.getSource();
+				//var oNewDateTime = oEvent.getParameter("newDateTime");
+				var oDraggedShapeDates = oEvent.getParameter("draggedShapeDates");
+				var sLastDraggedShapeUid = oEvent.getParameter("lastDraggedShapeUid");
 
-			var oDataModel = oSourceGantt.getModel("data");
-			var that = this;
 
-			Object.keys(oDraggedShapeDates).forEach(function (sShapeUid) {
-				var sPath = getBindingContextPath(sShapeUid);
-				var oOldDateTime = oDraggedShapeDates[sShapeUid].time;
-				var oOldEndDateTime = oDraggedShapeDates[sShapeUid].endTime;
-				var oNewDateTime = new Date(oOldDateTime.getTime() + iMoveWidthInMs);
-				var oNewEndDateTime = new Date(oOldEndDateTime.getTime() + iMoveWidthInMs);
+				var oParsedUid = Utility.parseUid(sLastDraggedShapeUid).shapeId;
+				oParsedUid = oParsedUid.replace(/-/g, "").toUpperCase();
+				var oNewDateTime_s = oEvent.getParameter("newDateTime");
 
-				var oData = oDataModel.getObject(sPath);
+				var NewDepartureDatetime = formatter.formatDate(oNewDateTime_s);
+				//var sPath = oParsedUid.shapeDataName;
 
-				var sType = oDataModel.getProperty(sPath + "/Type");
 
-				if (sTargetObjectType == "Truck") {
-					if (sType == "FO") {
-						that.handleMoveFreightOrderToTruck(oNewDateTime, oNewEndDateTime, oTargetObject, sPath, oDataModel, iMoveWidthInMs);
-					} else if (sType == "FU") {
-						if (oData.PlanStatus == "unplanned") {
-							that.handleMoveFreightUnitToTruck(oNewDateTime, oNewEndDateTime, oTargetObject, sPath, oDataModel);
-						}
-					}
+				const response = await FreightOrderService.GetFOSimilution({
+					IvTorKey: oParsedUid,
+					IvNewDepartureDatetime: NewDepartureDatetime //'20260922044441'
+				});
+
+				// console.log("API Response", response);
+				const oSimulation = response?.value?.[0]?.simulationResults || [];
+
+				if (!oSimulation) {
+					sap.m.MessageToast.show("No simulation result returned");
+					return;
 				}
-			});
+				else if (oSimulation[0].updateRc === 'F') {
+					sap.m.MessageToast.show("Simiulation Result is Failed ......");
+					return;
+				}
+
+
+				if (oSimulation[0].updateRc != 'F') {
+
+					// console.log("Simulation Results", aResults);
+
+					// const sNewDepartureStart = response?.value?.[0]?.simulationResults?.[0]?.newDepartureStart;
+					// const sNewDepartureEnd = response?.value?.[0]?.simulationResults?.[0]?.newDepartureEnd;
+					// const aRestBreaks = response?.value?.[0]?.simulationResults?.[0]?.restBreaks || [];
+
+					const {
+						newDepartureStart,
+						newDepartureEnd,
+						restBreaks
+					} = response.value[0].simulationResults[0];
+
+					console.log(newDepartureStart);
+					console.log(newDepartureEnd);
+					console.log(restBreaks);
+
+
+
+
+					// Convert API datetime string to JS Date
+					const oNewDateTime = formatter.dateToNewObject(newDepartureStart);
+					const oNewEndDateTime = formatter.dateToNewObject(newDepartureEnd);
+
+					var oOldStartDateTime = oDraggedShapeDates[sLastDraggedShapeUid].time;
+					var oOldEndDateTime = oDraggedShapeDates[sLastDraggedShapeUid].endTime;
+					var iMoveWidthInMs = oNewDateTime.getTime() - oOldStartDateTime.getTime();
+					if (oSourceGantt.getGhostAlignment() === sap.gantt.dragdrop.GhostAlignment.End) {
+						iMoveWidthInMs = oNewDateTime.getTime() - oOldEndDateTime.getTime();
+					}
+
+					// const sFO = oShapeData.shape.getShapeId();
+					// const dStart = oShapeData.time;
+					// const dEnd = oShapeData.endTime;
+
+					var getBindingContextPath = function (sShapeUid) {
+						var oParsedUid = Utility.parseUid(sShapeUid);
+						return oParsedUid.shapeDataName;
+					};
+
+					var oTargetRow = oEvent.getParameter("targetRow");
+					var oTargetObject = oTargetRow.getBindingContext("data").getObject();
+					var sTargetObjectType = oTargetObject.Type;
+
+					var oDataModel = this.getOwnerComponent().getModel("data");
+					var oDataModel = oSourceGantt.getModel("data");
+					var that = this;
+
+					Object.keys(oDraggedShapeDates).forEach(function (sShapeUid) {
+						var sPath = getBindingContextPath(sShapeUid);
+						var oOldDateTime = oDraggedShapeDates[sShapeUid].time;
+						var oOldEndDateTime = oDraggedShapeDates[sShapeUid].endTime;
+						var oNewDateTime = new Date(formatter.dateToNewObject(newDepartureStart).getTime() + iMoveWidthInMs);
+						var oNewEndDateTime = new Date(formatter.dateToNewObject(newDepartureEnd).getTime() + iMoveWidthInMs);
+
+						var oData = oDataModel.getObject(sPath);
+
+						var sType = oDataModel.getProperty(sPath + "/Type");
+
+						that.handleMoveFreightOrderToTruck(oNewDateTime, oNewEndDateTime, oTargetObject, sPath, oDataModel, iMoveWidthInMs);
+
+						if (sTargetObjectType == "Truck") {
+							if (sType == "FO") {
+								that.handleMoveFreightOrderToTruck(oNewDateTime, oNewEndDateTime, oTargetObject, sPath, oDataModel, iMoveWidthInMs);
+							} else if (sType == "FU") {
+								if (oData.PlanStatus == "unplanned") {
+									that.handleMoveFreightUnitToTruck(oNewDateTime, oNewEndDateTime, oTargetObject, sPath, oDataModel);
+								}
+							}
+						}
+					});
+					sap.m.MessageToast.show(`Freight Order updated successfully. Start: ${oNewDateTime}, End: ${oNewEndDateTime}`);
+				}
+
+			} catch (e) {
+				console.error("API Error", e);
+				console.error("Response", e?.response);
+				console.error("Response Data", e?.response?.data);
+
+				sap.m.MessageToast.show(
+					e?.response?.data?.error?.message ||
+					e?.message ||
+					"Update failed"
+				);
+			}
 		},
 
 		handleMoveFreightUnitToTruck: function (oTime, oEndTime, oTargetObject, sPath, oModel) {
 			var oData = oModel.getObject(sPath);
 
-			var sTargetResourceId = oTargetObject.ResourceID;
+			var sTargetResourceId = oTargetObject.id;
 			this.iNewFOCount++;
 			var sNewFOId = "$" + this.iNewFOCount;
 
@@ -178,9 +256,10 @@ sap.ui.define([
 		},
 
 		handleMoveFreightOrderToTruck: function (oTime, oEndTime, oTargetObject, sPath, oModel, iMoveWidthInMs) {
+
 			var oData = oModel.getObject(sPath);
-			var sCurrentResourceID = oData.ResourceID;
-			var sTargetResourceID = oTargetObject.ResourceID;
+			var sCurrentResourceID = oData.id;
+			var sTargetResourceID = oTargetObject.id;
 
 			if (sCurrentResourceID !== sTargetResourceID) {
 				oData.StartTime = oTime;
@@ -201,54 +280,68 @@ sap.ui.define([
 				};
 				oModel.update(sPath, oData, mParameters);
 			} else {
-				oModel.setProperty(sPath + "/StartTime", oTime, true);
-				oModel.setProperty(sPath + "/EndTime", oEndTime, true);
+				oModel.setProperty(sPath + "/Departure_Time", oTime, true);
+				oModel.setProperty(sPath + "/Arrival_Time", oEndTime, true);
 			}
 
-			oModel.read('/Requirements', {
-				success: function (oData) {
-					var aResult = oData.results;
-					aResult.forEach(function (oNode) {
-						var sUnitPath = "/Requirements('" + oNode.RequirementID + "')";
-						oModel.setProperty(sUnitPath + "/StartTime", oTime, true);
-						oModel.setProperty(sUnitPath + "/EndTime", oEndTime, true);
-					});
 
-				},
-				error: function () {
+			var aRequirements = oModel.getProperty("/Requirements") || [];
 
-				},
-				urlParameters: {
-					"$filter": "ParentRequirementID eq " + oData.RequirementID
-				}
-			});
+			aRequirements
+				.filter(oNode => oNode.ParentRequirementID === oData.id)
+				.forEach(function (oNode) {
+
+					var sPath = "/Requirements/" +
+						aRequirements.findIndex(r => r.id === oNode.id);
+
+					oModel.setProperty(sPath + "/Departure_Time", oTime);
+					oModel.setProperty(sPath + "/Arrival_Time", oEndTime);
+				});
+
+			// oModel.read('/Requirements', {
+			// 	success: function (oData) {
+			// 		var aResult = oData.results;
+			// 		aResult.forEach(function (oNode) {
+			// 			var sUnitPath = "/Requirements('" + oNode.id + "')";
+			// 			oModel.setProperty(sUnitPath + "/Departure_Time", oTime, true);
+			// 			oModel.setProperty(sUnitPath + "/Arrival_Time", oEndTime, true);
+			// 		});
+
+			// 	},
+			// 	error: function () {
+
+			// 	},
+			// 	urlParameters: {
+			// 		"$filter": "ParentRequirementID eq " + oData.id
+			// 	}
+			// });
 
 
-			oModel.read('/UtilizationItems', {
-				success: function (oItemData) {
-					var aResult = oItemData.results;
-					aResult.forEach(function (oItem) {
-						var sUnitPath = "/UtilizationItems('" + oItem.UtilItemID + "')";
-						var oOldStartDateTime = oItem.StartTime;
-						var oOldEndDateTime = oItem.EndTime;
-						var oNewStartTime = new Date(oOldStartDateTime.getTime() + iMoveWidthInMs);
-						var oNewEndTime = new Date(oOldEndDateTime.getTime() + iMoveWidthInMs);
-						var oData = {
-							StartTime: oNewStartTime,
-							EndTime: oNewEndTime
-						};
+			// oModel.read('/UtilizationItems', {
+			// 	success: function (oItemData) {
+			// 		var aResult = oItemData.results;
+			// 		aResult.forEach(function (oItem) {
+			// 			var sUnitPath = "/UtilizationItems('" + oItem.UtilItemID + "')";
+			// 			var oOldStartDateTime = oItem.StartTime;
+			// 			var oOldEndDateTime = oItem.EndTime;
+			// 			var oNewStartTime = new Date(oOldStartDateTime.getTime() + iMoveWidthInMs);
+			// 			var oNewEndTime = new Date(oOldEndDateTime.getTime() + iMoveWidthInMs);
+			// 			var oData = {
+			// 				StartTime: oNewStartTime,
+			// 				EndTime: oNewEndTime
+			// 			};
 
-						oModel.update(sUnitPath, oData);
-					});
+			// 			oModel.update(sUnitPath, oData);
+			// 		});
 
-				},
-				error: function () {
+			// 	},
+			// 	error: function () {
 
-				},
-				urlParameters: {
-					"$filter": "RootRequirementID eq " + oData.RequirementID
-				}
-			});
+			// 	},
+			// 	urlParameters: {
+			// 		"$filter": "RootRequirementID eq " + oData.RequirementID
+			// 	}
+			// });
 
 		},
 
@@ -263,7 +356,7 @@ sap.ui.define([
 					legendContainer.getLegends()[0].getItems()[1].setProperty("visible", true, true);
 					legendContainer.getLegends()[1].setProperty("visible", true, true);
 					this.getGanttInstance("FreightOrder", "ReqAndResAndDrv", oGanttChartContainer);
-					 break;
+					break;
 				case "ReqAndRes":
 					legendContainer.getLegends()[0].setProperty("visible", true, true);
 					legendContainer.getLegends()[0].getItems()[1].setProperty("visible", true, true);
@@ -396,8 +489,8 @@ sap.ui.define([
 					this.getView().addDependent(this._oPopover);
 					this._oPopover.getModel("popover").setData({
 						RequirementID: oShape.getShapeId(),
-						SourceLocation: "Beijing",
-						DestinationLocation: "Shanghai",
+						SourceLocation: "",
+						DestinationLocation: "",
 						DepartureDate: oShape.getTime(),
 						ArrivalDate: oShape.getEndTime()
 					});
@@ -534,30 +627,8 @@ sap.ui.define([
 			if (oContainer) {
 				oContainer.showWrapper(this._toggleoverlayforcontainer);
 			}
-		},
-		dateToObject: function (sDate) {
-
-			if (!sDate) {
-				return null;
-			}
-
-			var oMatch = sDate.match(
-				/^(\d{4})-(\d{2})-(\d{2})T(\d{2})(\d{2})(\d{2})Z$/
-			);
-
-			if (!oMatch) {
-				return null;
-			}
-
-			return new Date(Date.UTC(
-				Number(oMatch[1]),
-				Number(oMatch[2]) - 1,
-				Number(oMatch[3]),
-				Number(oMatch[4]),
-				Number(oMatch[5]),
-				Number(oMatch[6])
-			));
 		}
+
 
 	});
 });

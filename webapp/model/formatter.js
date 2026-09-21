@@ -135,6 +135,67 @@ sap.ui.define(["sap/ui/model/type/Currency"], function (Currency) {
             );
 
             return null;
+        },
+        dateToNewObject: function (sDate) {
+
+			if (!sDate) {
+				return null;
+			}
+
+			var oMatch;
+
+			switch (true) {
+
+				// Format: 2026-09-22T044441Z
+				case /^\d{4}-\d{2}-\d{2}T\d{6}Z$/.test(sDate):
+					oMatch = sDate.match(
+						/^(\d{4})-(\d{2})-(\d{2})T(\d{2})(\d{2})(\d{2})Z$/
+					);
+
+					return new Date(
+						Number(oMatch[1]),
+						Number(oMatch[2]) - 1,
+						Number(oMatch[3]),
+						Number(oMatch[4]),
+						Number(oMatch[5]),
+						Number(oMatch[6])
+					);
+
+				// Format: 20260922044441
+				case /^\d{14}$/.test(sDate):
+					oMatch = sDate.match(
+						/^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})$/
+					);
+
+					return new Date(
+						Number(oMatch[1]),
+						Number(oMatch[2]) - 1,
+						Number(oMatch[3]),
+						Number(oMatch[4]),
+						Number(oMatch[5]),
+						Number(oMatch[6])
+					);
+
+				default:
+					return null;
+			}		
+
+			
+		},
+        formatDate: function (oDate) {
+
+            return oDate.getFullYear() +
+
+                String(oDate.getMonth() + 1).padStart(2, "0") +
+
+                String(oDate.getDate()).padStart(2, "0") +
+
+                String(oDate.getHours()).padStart(2, "0") +
+
+                String(oDate.getMinutes()).padStart(2, "0") +
+
+                String(oDate.getSeconds()).padStart(2, "0");
+
         }
     };
 });

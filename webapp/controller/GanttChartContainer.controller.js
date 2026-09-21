@@ -178,8 +178,8 @@ sap.ui.define([
 
 					Object.keys(oDraggedShapeDates).forEach(function (sShapeUid) {
 						var sPath = getBindingContextPath(sShapeUid);
-						var oOldDateTime = oDraggedShapeDates[sShapeUid].time;
-						var oOldEndDateTime = oDraggedShapeDates[sShapeUid].endTime;
+						// var oOldDateTime = oDraggedShapeDates[sShapeUid].time;
+						// var oOldEndDateTime = oDraggedShapeDates[sShapeUid].endTime;
 						var oNewDateTime = new Date(formatter.dateToNewObject(newDepartureStart).getTime() + iMoveWidthInMs);
 						var oNewEndDateTime = new Date(formatter.dateToNewObject(newDepartureEnd).getTime() + iMoveWidthInMs);
 

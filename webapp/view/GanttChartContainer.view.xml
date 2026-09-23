@@ -10,7 +10,7 @@
 	<m:Page title="Dispatcher Cockpit for Driver and Vehicle assignment with Freight order" showNavButton="true" contentOnlyBusy="true">
 		<gnt2:GanttChartContainer id="container" enableTimeScrollSync="true" width="100%" enableAutoFocusOnZoom="true">
 			<gnt2:toolbar>
-				<gnt2:ContainerToolbar id="toolbar" design="Auto" showBirdEyeButton="true" showLegendButton="true" ganttSidePanel=".onGanttSidePanel" showSearchButton="false">
+				<gnt2:ContainerToolbar id="toolbar" design="Auto" showBirdEyeButton="true" showLegendButton="true" ganttSidePanel=".onGanttSidePanel" showSearchButton="true">
 					<m:Select id="layoutSelect" forceSelection="false" selectedKey="ReqAndRes" change=".onLayoutChange">
 						<m:items>						
 							<core:Item key="ReqAndResAndDrv" text="Requirement And Resource and Driver"/>
@@ -22,7 +22,7 @@
 						</m:items>
 					</m:Select>
 					<gnt2:legendContainer>
-						<gnt2:LegendContainer id="legendContainer" width="230px" height="270px" enableFlatLegends="true">
+						<gnt2:LegendContainer id="legendContainer" width="100px" height="270px" enableFlatLegends="true">
 							<gnt2:ListLegend id="listLegend" title="Requirement Document">
 								<gnt2:ListLegendItem interactive="false" selected="true" interactiveChange=".onLegendItemInteractiveChange">
 									<gnt2:BaseRectangle shapeId="legendItemFO" fill="#99D101" title="Freight Order" showTitle="false"/>
@@ -41,7 +41,7 @@
 							</gnt2:ListLegend>
 						</gnt2:LegendContainer>
 					</gnt2:legendContainer>
-					<!-- <m:Button text="Display overlay" press=".onDisplayOverlay"/>  -->
+					
 				</gnt2:ContainerToolbar>
 			</gnt2:toolbar>
 			<!-- ///Start of Change: 16 September 2026
@@ -53,8 +53,12 @@
 			<!--End of Change: 16 September 2026 !-->
 
 			 <core:Fragment fragmentName="dispatcherns.dispatcherproj.view.Truck" type="XML"/> 
-			 <!-- <core:Fragment fragmentName="dispatcherns.dispatcherproj.view.DriverView" type="XML"/>   -->
-			
+			 <core:Fragment fragmentName="dispatcherns.dispatcherproj.view.DriverView" type="XML"/>   
+
 		</gnt2:GanttChartContainer>
+		<m:Toolbar>
+			<m:ToolbarSpacer />
+			<m:Button  text="Save"  icon="sap-icon://save"  type="Emphasized"  press=".onSaveData" />
+		</m:Toolbar>		 
 	</m:Page>
 </mvc:View>

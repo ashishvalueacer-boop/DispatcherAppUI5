@@ -53,11 +53,11 @@ sap.ui.define(["sap/ui/model/type/Currency"], function (Currency) {
 
         orderTitle: function (sRequirementId, sSource, sDestination) {
             return [
-                sRequirementId,
-                ":",
-                sSource,
-                "->",
-                sDestination
+                sRequirementId
+                // ":",
+                // sSource,
+                // "->",
+                // sDestination
             ].join(" ");
         },
 

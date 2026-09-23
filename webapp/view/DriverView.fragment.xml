@@ -39,7 +39,7 @@
 					</m:OverflowToolbar>
 				</extension>
 				<rowMode>
-					<rm:Auto minRowCount="1"/>
+					<rm:Auto minRowCount="5"/>
 				</rowMode>
 				<rowSettingsTemplate>
 					<gnt2:GanttRowSettings
@@ -49,12 +49,12 @@
 							templateShareable:true
 						}"
 						>
-						<gnt2:calendars>
-							<gnt2:BaseCalendar  shapeId="Weekend" calendarName="Weekend" fill="#b9d3e4"/>
-						</gnt2:calendars>
 						<!-- <gnt2:calendars>
-							<gnt2:BaseCalendar shapeId="{data>CalendarName}" calendarName="{data>CalendarName}" fill="#b9d3e4"/>
+							<gnt2:BaseCalendar  shapeId="Weekend" calendarName="Weekend" fill="#e0ded6"/>
 						</gnt2:calendars> -->
+						<gnt2:calendars>
+							<gnt2:BaseCalendar shapeId="{data>driverId}" calendarName="{data>driverId}" fill="#b9d3e4"/>
+						</gnt2:calendars>
 						<gnt2:shapes1>
 							<gnt2:BaseRectangle
 									shapeId="{data>driverId}"
@@ -68,22 +68,22 @@
 					</gnt2:GanttRowSettings>
 				</rowSettingsTemplate>
 				<columns>
-					<Column sortProperty="DriverId" filterProperty="DriverId">
+					<Column sortProperty="driverId" filterProperty="driverId">
 						<m:Text text="Driver ID"/>
 						<template>
-							<m:Label text="{data>DriverId}"/>
+							<m:Label text="{data>driverId}"/>
 						</template>
 					</Column>
-					<Column sortProperty="Name" filterProperty="name">
+					<Column sortProperty="firstName" filterProperty="firstName">
 						<m:Text text="First Name"/>
 						<template>
-							<m:Label text="{data>name}"/>
+							<m:Label text="{data>firstName}"/>
 						</template>
 					</Column>
-					<Column sortProperty="name" filterProperty="name">
+					<Column sortProperty="lastName" filterProperty="lastName">
 						<m:Text text="Last Name" />
 						<template>
-							<m:Label text="{data>name}"/>
+							<m:Label text="{data>lastName}"/>
 						</template>
 					</Column>
 					

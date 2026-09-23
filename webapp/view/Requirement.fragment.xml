@@ -21,7 +21,7 @@
         path: 'data>Arrival_Time',
         formatter: '.formatter.dateToObject'}"				
 		resizable="false" selectable="true" draggable= "true" 
-		title="{data>id}" showTitle="true" titleColor="#FFFFFF" fill="#0038FF"
+		title="{data>id}" showTitle="true" titleColor="black" fill="#99D101"
 		tooltip="{
 			parts: [
 				'i18n>freightOrderTooltip',

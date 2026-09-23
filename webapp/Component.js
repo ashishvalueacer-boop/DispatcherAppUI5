@@ -78,7 +78,7 @@ sap.ui.define([
 
                 const sStartTime = "2026-07-30T07:00:00Z";
                 const sEndTime = "2026-10-20T12:00:00Z";
-                const sDC =  "0017411710";
+                const sDC = "0017411710";
 
                 const [
                     _requirements,
@@ -89,27 +89,43 @@ sap.ui.define([
                     FreightOrderService.GetBulkfo({
                         p_start_time: sStartTime,
                         p_end_time: sEndTime,
-                        p_dc :  sDC
+                        p_dc: sDC
                     }),
                     DriverService.GetDrv({
                         p_start_time: sStartTime,
                         p_end_time: sEndTime,
-                        p_dc :  sDC
+                        p_dc: sDC
                     }),
                     VehicleService.GetRes({
                         p_start_time: sStartTime,
                         p_end_time: sEndTime,
-                        p_dc :  sDC
+                        p_dc: sDC
                     })
 
                 ]);
 
+                var aShapes = [];
+                var aResources = Array.isArray(_resources) ? _resources : (_resources?.value || []);
+                aResources.forEach(function (oResource) {
+                    oResource.AvailabilityShapes = [];
+                    (oResource.availability || []).forEach(function (oAvail,i) {                     
+                        
+                            oResource.AvailabilityShapes.push({
+                                resourceId: oResource.resourceId,
+                                StartTime: new Date(oAvail.startTime).toISOString().replace(".000", ""),
+                                EndTime: new Date(oAvail.endTime).toISOString().replace(".000", ""),
+                                description: oResource.description
+                            })                                                
+                    });
+
+                });
 
                 this.setModel(
                     new JSONModel({
                         Requirements: _requirements?.value || [],
                         Drivers: _drivers?.value || [],
-                        Resources: _resources?.value || []
+                        Resources: aResources,
+                        //AvailabilityShapes: aShapes
                     }),
                     "data"
                 );

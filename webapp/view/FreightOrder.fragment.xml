@@ -47,17 +47,19 @@
 							<core:Fragment fragmentName="dispatcherns.dispatcherproj.view.Requirement" type="XML" />
 						</gnt2:shapes1>
 						<gnt2:calendars>
-							<!-- <gnt2:BaseCalendar shapeId="{data>CalendarName}" calendarName="{data>CalendarName}" fill="#a71717"/>  -->
-							<gnt2:BaseCalendar  shapeId="Weekend" calendarName="Weekend" fill="#b9d3e4"/>
+							<gnt2:BaseCalendar shapeId="{data>id}" calendarName="{data>id}" fill="#e0ded6"/>  
+							<!-- <gnt2:BaseCalendar  shapeId="data>id" calendarName="Weekend" fill="#b9d3e4"/> -->
 						</gnt2:calendars>
 					</gnt2:GanttRowSettings>
 				</rowSettingsTemplate>
 				<core:Fragment fragmentName="dispatcherns.dispatcherproj.view.SharedTableColumn" type="XML"/>
 			</Table>
+			
 		</gnt2:table>
 
 		<gnt2:axisTimeStrategy>
 			<core:Fragment fragmentName="dispatcherns.dispatcherproj.view.AxisTimeStrategy" type="XML"/> 
-		</gnt2:axisTimeStrategy>
+		</gnt2:axisTimeStrategy>		
 	</gnt2:GanttChartWithTable>
+
 </core:FragmentDefinition>

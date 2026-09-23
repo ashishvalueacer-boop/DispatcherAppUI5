@@ -28,6 +28,7 @@ sap.ui.define([
 
 			this.iNewFOCount = 0;
 			var oGantt1 = this.getView().byId("FreightOrder");
+
 			var oFullScreenButton1 = new sap.m.Button({
 				icon: "sap-icon://full-screen",
 				type: "Transparent",
@@ -37,10 +38,12 @@ sap.ui.define([
 			});
 			oGantt1.addEventDelegate({
 				onAfterRendering: function () {
+
 					var oGanttOverflowToolbar = oGantt1.getChartOverflowToolbar();
 					if (oGanttOverflowToolbar) {
 						oGanttOverflowToolbar.addContent(oFullScreenButton1);
 					}
+					//oGantt1.setShowBirdEye(true);
 				}
 			});
 			/********************************************************************************************* */
@@ -60,6 +63,8 @@ sap.ui.define([
 					}
 				}
 			});
+
+			 //this.getView().getModel("data").setProperty("/aShapes", aShapes);
 			/********************************************************************************************* */
 			// var oGantt3 = this.getView().byId("Driver");
 			// var oFullScreenButton3 = new sap.m.Button({
@@ -185,7 +190,7 @@ sap.ui.define([
 
 						var sType = oDataModel.getProperty(sPath + "/Type");
 
-						that.handleMoveFreightOrderToTruck(oNewDateTime, oNewEndDateTime, oTargetObject, sPath, oDataModel, iMoveWidthInMs);
+						that.handleMoveFreightOrderToTruck(oNewDateTime.toISOString().replace(".000", ""), oNewEndDateTime.toISOString().replace(".000", ""), oTargetObject, sPath, oDataModel, iMoveWidthInMs);
 
 						if (sTargetObjectType == "Truck") {
 							if (sType == "FO") {
@@ -625,6 +630,19 @@ sap.ui.define([
 			if (oContainer) {
 				oContainer.showWrapper(this._toggleoverlayforcontainer);
 			}
+		},
+		onSaveData: function () {
+
+			this.getModel().callFunction("/SaveFO", {
+				method: "POST",
+				success: function (oData) {
+					sap.m.MessageToast.show("Saved successfully");
+				},
+				error: function (oError) {
+					sap.m.MessageToast.show("Save failed");
+				}
+			});
+
 		}
 
 

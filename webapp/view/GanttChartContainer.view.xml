@@ -8,19 +8,67 @@
           xmlns:m="sap.m"
           xmlns:gnt2="sap.gantt.simple">
 	<m:Page title="Dispatcher Cockpit for Driver and Vehicle assignment with Freight order" showNavButton="true" contentOnlyBusy="true">
+	<m:customHeader>
+<m:OverflowToolbar>
+<m:Title text="Dispatcher Cockpit"/>
+<m:ToolbarSpacer/>
+<m:Button text="Use AI Proposal" icon="sap-icon://ai" type="Emphasized" press=".onUseAIProposal"/>
+<m:Button text="AI Settings" icon="sap-icon://action-settings" press=".onAISettings"/>
+<m:Link text="AI Analytics" icon="sap-icon://line-chart"  target="_blank"  press=".onAIAnalytics"/>
+<m:Button text="EU Regulations" icon="sap-icon://world" tooltip="Maintain EU Driver Regulations" press=".onEURegulations"/>
+</m:OverflowToolbar>
+</m:customHeader>
+	   
 		<gnt2:GanttChartContainer id="container" enableTimeScrollSync="true" width="100%" enableAutoFocusOnZoom="true">
 			<gnt2:toolbar>
-				<gnt2:ContainerToolbar id="toolbar" design="Auto" showBirdEyeButton="true" showLegendButton="true" ganttSidePanel=".onGanttSidePanel" showSearchButton="true">
-					<m:Select id="layoutSelect" forceSelection="false" selectedKey="ReqAndRes" change=".onLayoutChange">
+				<gnt2:ContainerToolbar id="toolbar" design="Auto" showBirdEyeButton="true" showLegendButton="true" ganttSidePanel=".onGanttSidePanel" showSearchButton="true">				
+				 <m:Label text="From Date" class="sapUiTinyMarginEnd"/>
+				 <m:DateTimePicker
+                       value=""
+                       displayFormat="dd MMM yyyy HH:mm"
+                       valueFormat="yyyy-MM-dd'T'HH:mm:ss"
+                        width="250px"
+                        id="dpFromDate" 
+                        change=".onDateChange"/>
+						
+				 <m:Label text="To Date" class="sapUiSmallMarginBegin sapUiTinyMarginEnd" />	
+				  <m:DateTimePicker
+                        value=""
+                       displayFormat="dd MMM yyyy HH:mm"
+                       valueFormat="yyyy-MM-dd'T'HH:mm:ss"
+                        width="250px"
+                        id="dpToDate"
+                        change=".onDateChange"/>
+						
+				  <m:Label text="Warehouse" class="sapUiTinyMarginEnd"/>				  
+				   <m:Select id="ownerSelect" class="sapUiTinyMarginEnd" forceSelection="false" selectedKey="0001000589" change=".onOwnerChange">				   
+				   	<m:items>									
+							<core:Item key="All" text="All"/>
+							<core:Item key="0017411710" text="1710"/>
+							<core:Item key="0001000589" text="1010"/>
+					</m:items>
+					</m:Select>
+					<m:ToolbarSpacer />
+					<m:Button
+                        text="Go"
+                        type="Emphasized"
+                        press=".onFilter"
+                    />
+                    <m:Button
+                        text="Reset"
+                        type="Transparent"
+                    />			
+
+					<!-- <m:Select id="layoutSelect" forceSelection="false" selectedKey="ReqAndRes" change=".onLayoutChange">
 						<m:items>						
 							<core:Item key="ReqAndResAndDrv" text="Requirement And Resource and Driver"/>
 							<core:Item key="ReqAndDrv" text="Requirement And Driver"/>
 							<core:Item key="ReqAndRes" text="Requirement And Resource"/>
 							<core:Item key="Requirement" text="Requirement"/>
-							<!-- <core:Item key="Resource" text="Resource"/>							
-							<core:Item key="Drivers" text="Drivers"/> -->
+							 <core:Item key="Resource" text="Resource"/>							 
+							<core:Item key="Drivers" text="Drivers"/> 
 						</m:items>
-					</m:Select>
+					</m:Select> -->
 					<gnt2:legendContainer>
 						<gnt2:LegendContainer id="legendContainer" width="100px" height="270px" enableFlatLegends="true">
 							<gnt2:ListLegend id="listLegend" title="Requirement Document">

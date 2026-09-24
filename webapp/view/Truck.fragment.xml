@@ -41,15 +41,40 @@
 					<rm:Auto minRowCount="5"/>
 				</rowMode>
 				<rowSettingsTemplate>
-					<gnt2:GanttRowSettings rowId="{data>resourceId}">						
+					<gnt2:GanttRowSettings rowId="{data>resourceId}" shapes1="{data>AvailabilityShapes}" shapes2="{data>FOShapes}">						
 						<gnt2:calendars>
 							<gnt2:BaseCalendar shapeId="{data>resourceId}" calendarName="{data>resourceId}" fill="#e0ded6"/>
 						</gnt2:calendars> 
-						 <gnt2:shapes1 >
+						 <gnt2:shapes1>
 							<gnt2:BaseDiamond>
-							</gnt2:BaseDiamond>						
+							</gnt2:BaseDiamond>	
 
 							<gnt2:BaseRectangle
+								shapeId="{data>shapeId}"
+								time="{
+								path:'data>StartTime',
+								formatter:'.formatter.dateToObject'
+								}"
+								endTime="{
+								path:'data>EndTime',
+								formatter:'.formatter.dateToObject'
+								}"
+								fill="#99D101"
+								height="25"							
+								countInBirdEye="true"
+								showTitle="true"
+								tooltip="{
+											parts: [
+												'i18n>VehicleTooltip',
+												'data>resourceId',
+												'data>StartTime',
+												'data>EndTime'
+											],
+											formatter: 'formatMessage'
+									}"
+								expandable="true" selectable="true" draggable="true" resizable="true"/>					
+
+							<!-- <gnt2:BaseRectangle
 								    visible="{= ${data>AvailabilityShapes/0} ? true : false }"
 									shapeId="{data>AvailabilityShapes/0/shapeId}"
 									time="{
@@ -62,7 +87,7 @@
 									countInBirdEye="true" height="25"
 									title = "{
 												parts:[
-													{ path:'data>resourceId' }
+													{ path:'' }
 																								
 												],
 												formatter: '.formatter.orderTitle'
@@ -92,7 +117,7 @@
 									countInBirdEye="true" height="25"
 									title = "{
 												parts:[
-													{ path:'data>AvailabilityShapes/1/resourceId' }
+													{ path:'' }
 																										
 												],
 												formatter: '.formatter.orderTitle'
@@ -122,7 +147,7 @@
 									countInBirdEye="true" height="25"
 									title = "{
 												parts:[
-													{ path:'data>AvailabilityShapes/3/resourceId' }												
+													{ path:'' }												
 												],
 												formatter: '.formatter.orderTitle'
 											}"
@@ -151,7 +176,7 @@
 									countInBirdEye="true" height="25"
 									title = "{
 												parts:[
-													{ path:'data>AvailabilityShapes/4/resourceId' }
+													{ path:'' }
 																								
 												],
 												formatter: '.formatter.orderTitle'
@@ -181,7 +206,7 @@
 									countInBirdEye="true" height="25"
 									title = "{
 												parts:[
-													{ path:'data>AvailabilityShapes/4/resourceId' }
+													{ path:'' }
 												],
 												formatter: '.formatter.orderTitle'
 											}"
@@ -195,11 +220,45 @@
 											],
 											formatter: 'formatMessage'
 									}"
-									expandable="true" selectable="true" draggable="true" resizable="true"/>
+									expandable="true" selectable="true" draggable="true" resizable="true"/> -->
 
 									
 						</gnt2:shapes1>
+						<!-- Assigned Freight Orders -->
 						<gnt2:shapes2>
+							<gnt2:BaseRectangle
+								shapeId="{data>shapeId}"
+								time="{
+								path:'data>StartTime',
+								formatter:'.formatter.dateToObject'
+								}"
+								endTime="{
+								path:'data>EndTime',
+								formatter:'.formatter.dateToObject'
+								}"
+								fill="#1E3A8A"
+								height="25"							
+								countInBirdEye="true"
+								showTitle="true"
+								title = "{
+												parts:[
+													{ path:'data>Title' }
+												],
+												formatter: '.formatter.orderTitle'
+											}"
+								tooltip="{
+											parts: [
+												'i18n>VehicleTooltip',
+												'data>Title',
+												'data>StartTime',
+												'data>EndTime'
+											],
+											formatter: 'formatMessage'
+									}"
+								expandable="false" selectable="false" draggable="false" resizable="false"/>	
+						</gnt2:shapes2>
+
+						<!-- <gnt2:shapes2>
 							<demokit:UtilizationGroup shapeId="{data>UtilizationID}" expandable="true">
 								<demokit:utilizationLine>
 									<gnt2:UtilizationLineChart showMiddleLine="true" time="{data>StartTime}" endTime="{data>EndTime}"
@@ -212,12 +271,12 @@
 									</gnt2:UtilizationLineChart>
 								</demokit:utilizationLine>
 							</demokit:UtilizationGroup>
-						</gnt2:shapes2> 
+						</gnt2:shapes2>  -->
 					</gnt2:GanttRowSettings>
 				</rowSettingsTemplate>
 				<columns>
 					<Column sortProperty="resourceId" filterProperty="resourceId">
-						<m:Text text="Resource ID"/>
+						<m:Text text="Vehicle ID"/>
 						<template>
 							<m:Label text="{data>resourceId}"/>
 						</template>
@@ -229,7 +288,7 @@
 						</template>
 					</Column> -->
 					<Column sortProperty="description" filterProperty="description">
-						<m:Text text="Resource Description" />
+						<m:Text text="Vehicle Description" />
 						<template>
 							<m:Label text="{data>description}"/>
 						</template>

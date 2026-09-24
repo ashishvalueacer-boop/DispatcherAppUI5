@@ -21,7 +21,7 @@ sap.ui.define(["../config/config"], function (config) {
 
         async post(endpoint, payload) {
 
-            const response = await fetch(`${config.LOCAL}${endpoint}`,
+            const response = await fetch(`${config.PROD}${endpoint}`,
                 {
                     method: "POST",
                     headers: {
@@ -40,7 +40,7 @@ sap.ui.define(["../config/config"], function (config) {
 
         async put(endpoint, payload) {
 
-            const response = await fetch(`${config.LOCAL}${endpoint}`,
+            const response = await fetch(`${config.PROD}${endpoint}`,
                 {
                     method: "PUT",
                     headers: {
@@ -59,7 +59,7 @@ sap.ui.define(["../config/config"], function (config) {
 
         async delete(endpoint) {
 
-            const response = await fetch(`${config.LOCAL}${endpoint}`,
+            const response = await fetch(`${config.PROD}${endpoint}`,
                 {
                     method: "DELETE"
                 }

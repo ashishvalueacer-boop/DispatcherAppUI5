@@ -35,6 +35,7 @@ sap.ui.define([
 
             UIComponent.prototype.init.apply(this, arguments);
 
+
             const oDataModel = new sap.ui.model.json.JSONModel({
                 Requirements: [],
                 Drivers: [],
@@ -73,12 +74,22 @@ sap.ui.define([
             this._oMockServer.destroy();
         },
 
-        async loadMasterData() {
+        async loadMasterData(oFromDate, oToDate, oDc) {
             try {
 
-                const sStartTime = "2026-07-30T07:00:00Z";
-                const sEndTime = "2026-10-20T12:00:00Z";
-                const sDC = "0017411710";
+                var sFromDate =
+                    oFromDate.getFullYear() + "-" +
+                    String(oFromDate.getMonth() + 1).padStart(2, "0") + "-" +
+                    String(oFromDate.getDate()).padStart(2, "0");
+
+                var sToDate =
+                    oToDate.getFullYear() + "-" +
+                    String(oToDate.getMonth() + 1).padStart(2, "0") + "-" +
+                    String(oToDate.getDate()).padStart(2, "0");
+
+                const sStartTime = sFromDate + "T00:00:00Z";
+                const sEndTime = sToDate + "T23:59:59Z";
+                const sDC = oDc;
 
                 const [
                     _requirements,
@@ -105,27 +116,48 @@ sap.ui.define([
                 ]);
 
                 var aShapes = [];
+
                 var aResources = Array.isArray(_resources) ? _resources : (_resources?.value || []);
+
                 aResources.forEach(function (oResource) {
                     oResource.AvailabilityShapes = [];
-                    (oResource.availability || []).forEach(function (oAvail,i) {                     
-                        
-                            oResource.AvailabilityShapes.push({
-                                resourceId: oResource.resourceId,
-                                StartTime: new Date(oAvail.startTime).toISOString().replace(".000", ""),
-                                EndTime: new Date(oAvail.endTime).toISOString().replace(".000", ""),
-                                description: oResource.description
-                            })                                                
+
+                    (oResource.availability || []).forEach(function (oAvail, i) {
+                        oResource.AvailabilityShapes.push({
+                            resourceId: oResource.resourceId,
+                            StartTime: new Date(oAvail.startTime).toISOString().replace(".000", ""),
+                            EndTime: new Date(oAvail.endTime).toISOString().replace(".000", ""),
+                            description: oResource.description
+                        })
                     });
 
+                });      
+
+                var aRequirements =  Array.isArray(_requirements) ? _requirements : (_requirements?.value || []);
+                aResources.forEach(function (oTruck) {
+                    oTruck.FOShapes = aRequirements
+                        .filter(function (oFO) {
+                            return oFO.Veh_id === oTruck.resourceId;
+                        })
+                        .map(function (oFO) {
+                            return {
+                                shapeId: oFO.id,
+                                Title: oFO.id,
+                                StartTime: oFO.Departure_Time,
+                                EndTime: oFO.Arrival_Time
+                            };
+
+                        });
                 });
+
+
 
                 this.setModel(
                     new JSONModel({
                         Requirements: _requirements?.value || [],
                         Drivers: _drivers?.value || [],
                         Resources: aResources,
-                        //AvailabilityShapes: aShapes
+                        AvailabilityShapes: aShapes
                     }),
                     "data"
                 );
@@ -136,21 +168,9 @@ sap.ui.define([
                     (error.message || error.toString())
                 );
             }
-        },
+        }
 
-        // _adjustTableWidth: function () {
-        //     var oGantt = this.byId("container");
 
-        //     var iScreenWidth = window.innerWidth;
-
-        //     if (iScreenWidth > 1600) {
-        //         oGantt.setTableWidth("500px");
-        //     } else if (iScreenWidth > 1200) {
-        //         oGantt.setTableWidth("400px");
-        //     } else {
-        //         oGantt.setTableWidth("300px");
-        //     }
-        // }
 
 
     });

@@ -58,6 +58,11 @@ sap.ui.define([
             return ApiService.get(
                 `/GetBulkfo?${query}`
             );
+        },
+        SaveFO:function(oPayload){
+             return ApiService.post(
+                "/SaveFOSAP",oPayload
+            );
         }
         
     };

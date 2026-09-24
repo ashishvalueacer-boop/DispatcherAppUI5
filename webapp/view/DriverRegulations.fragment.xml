@@ -1,0 +1,416 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form">
+ 
+    <Dialog
+        id="euRegulationDialog"
+        title="Driver Regulations Configuration"
+        contentWidth="900px"
+        contentHeight="700px"
+        draggable="true"
+        resizable="true">
+        <customHeader>
+            <Bar>
+                <contentLeft>
+                    <Title text="Driver Regulations"/>
+                </contentLeft>
+ 
+                <contentRight>
+ 
+                    <Button
+                        text="New Version"
+                        icon="sap-icon://add"
+                        type="Emphasized"
+                        press=".onCreateEURegulation"/>
+ 
+                    <Button
+                        text="Edit"
+                        icon="sap-icon://edit"
+                        press=".onEditEURegulation"/>
+ 
+                </contentRight>
+ 
+            </Bar>
+        </customHeader>
+ 
+        <content>
+ 
+            <VBox class="sapUiMediumMargin">
+ 
+                <MessageStrip
+                    text="Regulations are system controlled and should only be maintained by Compliance Administrators."
+                    type="Warning"
+                    showIcon="true"/>
+ 
+                <Panel
+                    expandable="true"
+                    expanded="true"
+                    headerText="Available Regulations">
+ 
+                    <Table
+                        id="euRegulationsTable"
+                        mode="SingleSelectMaster"
+                        items="{eu>/regulations}"
+                        selectionChange=".onSelectEURegulation">
+                        <columns>
+                            <Column>
+                                <Text text="Regulation"/>
+                            </Column>
+                            <Column>
+                                <Text text="Country"/>
+                            </Column>
+                            <Column>
+                                <Text text="Version"/>
+                            </Column>
+                            <Column hAlign="Center">
+                                <Text text="Status"/>
+                            </Column>
+                        </columns>
+                        <items>
+                            <ColumnListItem>
+                                <cells>
+                                    <Text text="{eu>REGULATION_ID}"/>
+                                    <Text text="{eu>COUNTRY_CODE}"/>
+                                    <Text text="{eu>REGULATION_VERSION}"/>
+                                    <Switch
+                                        class="driverRegulationStatusSwitch"
+                                        state="{eu>ACTIVE}"
+                                        enabled="{eu>/editMode}"
+                                        customTextOn="Active"
+                                        customTextOff="In-Active"
+                                        change=".onEURegulationStatusChange"/>
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+ 
+                </Panel>
+ 
+                <Panel
+                    expandable="true"
+                    expanded="true"
+                    headerText="Regulation Information">
+ 
+                    <f:SimpleForm
+                        editable="{eu>/editMode}"
+                        layout="ResponsiveGridLayout">
+ 
+                        <Label text="Regulation ID"/>
+                        <Input
+                            value="{eu>/REGULATION_ID}"
+                            editable="false"/>
+ 
+                        <Label text="Country Code"/>
+                        <Select
+                            selectedKey="{eu>/COUNTRY_CODE}"
+                            enabled="{eu>/editMode}"
+                            width="100%">
+                            <core:Item key="AT" text="AT - Austria"/>
+                            <core:Item key="BE" text="BE - Belgium"/>
+                            <core:Item key="BG" text="BG - Bulgaria"/>
+                            <core:Item key="HR" text="HR - Croatia"/>
+                            <core:Item key="CY" text="CY - Cyprus"/>
+                            <core:Item key="CZ" text="CZ - Czech Republic"/>
+                            <core:Item key="DK" text="DK - Denmark"/>
+                            <core:Item key="EE" text="EE - Estonia"/>
+                            <core:Item key="EU" text="EU - European Union"/>
+                            <core:Item key="FI" text="FI - Finland"/>
+                            <core:Item key="FR" text="FR - France"/>
+                            <core:Item key="DE" text="DE - Germany"/>
+                            <core:Item key="GR" text="GR - Greece"/>
+                            <core:Item key="HU" text="HU - Hungary"/>
+                            <core:Item key="IE" text="IE - Ireland"/>
+                            <core:Item key="IT" text="IT - Italy"/>
+                            <core:Item key="LV" text="LV - Latvia"/>
+                            <core:Item key="LT" text="LT - Lithuania"/>
+                            <core:Item key="LU" text="LU - Luxembourg"/>
+                            <core:Item key="MT" text="MT - Malta"/>
+                            <core:Item key="NL" text="NL - Netherlands"/>
+                            <core:Item key="PL" text="PL - Poland"/>
+                            <core:Item key="PT" text="PT - Portugal"/>
+                            <core:Item key="RO" text="RO - Romania"/>
+                            <core:Item key="SK" text="SK - Slovakia"/>
+                            <core:Item key="SI" text="SI - Slovenia"/>
+                            <core:Item key="ES" text="ES - Spain"/>
+                            <core:Item key="SE" text="SE - Sweden"/>
+                        </Select>
+ 
+                        <Label text="Regulation Version"/>
+                        <Input
+                            value="{eu>/REGULATION_VERSION}"/>
+ 
+                        <Label text="Valid From"/>
+                        <DatePicker
+                            value="{eu>/VALID_FROM}"/>
+ 
+                        <Label text="Valid To"/>
+                        <DatePicker
+                            value="{eu>/VALID_TO}"/>
+ 
+                        <Label text="Status"/>
+                        <Switch
+                            class="driverRegulationStatusSwitch"
+                            state="{eu>/ACTIVE}"
+                            customTextOn="Active"
+                            customTextOff="In-Active"/>
+ 
+                    </f:SimpleForm>
+ 
+                </Panel>
+ 
+                <Panel
+                    expandable="true"
+                    expanded="true"
+                    headerText="Driving Limits">
+ 
+                    <f:SimpleForm
+                        editable="{eu>/editMode}"
+                        layout="ResponsiveGridLayout">
+ 
+                        <Label text="Maximum Daily Driving Time (Hours)"/>
+                        <HBox alignItems="Center">
+                            <StepInput
+                                value="{eu>/MAX_DAILY_DRIVING_HRS}"
+                                width="12rem"
+                                min="0"
+                                max="24"
+                                step="0.01"
+                                displayValuePrecision="2"/>
+                            <Switch
+                                class="sapUiTinyMarginBegin driverRegulationStatusSwitch"
+                                state="{eu>/MAX_DAILY_DRIVING_HRS_ACTIVE}"
+                                enabled="{eu>/editMode}"
+                                customTextOn="Active"
+                                customTextOff="In-Active"/>
+                        </HBox>
+ 
+                        <Label text="Extended Daily Driving Time (Hours)"/>
+                        <HBox alignItems="Center">
+                            <StepInput
+                                value="{eu>/EXTENDED_DAILY_HRS}"
+                                width="12rem"
+                                min="0"
+                                max="24"
+                                step="0.01"
+                                displayValuePrecision="2"/>
+                            <Switch
+                                class="sapUiTinyMarginBegin driverRegulationStatusSwitch"
+                                state="{eu>/EXTENDED_DAILY_HRS_ACTIVE}"
+                                enabled="{eu>/editMode}"
+                                customTextOn="Active"
+                                customTextOff="In-Active"/>
+                        </HBox>
+ 
+                        <Label text="Maximum Weekly Driving Time (Hours)"/>
+                        <HBox alignItems="Center">
+                            <StepInput
+                                value="{eu>/MAX_WEEKLY_HRS}"
+                                width="12rem"
+                                min="0"
+                                max="100"
+                                step="0.01"
+                                displayValuePrecision="2"/>
+                            <Switch
+                                class="sapUiTinyMarginBegin driverRegulationStatusSwitch"
+                                state="{eu>/MAX_WEEKLY_HRS_ACTIVE}"
+                                enabled="{eu>/editMode}"
+                                customTextOn="Active"
+                                customTextOff="In-Active"/>
+                        </HBox>
+ 
+                        <Label text="Maximum Fortnight Driving (Hours)"/>
+                        <HBox alignItems="Center">
+                            <StepInput
+                                value="{eu>/MAX_FORTNIGHT_HRS}"
+                                width="12rem"
+                                min="0"
+                                max="200"
+                                step="0.01"
+                                displayValuePrecision="2"/>
+                            <Switch
+                                class="sapUiTinyMarginBegin driverRegulationStatusSwitch"
+                                state="{eu>/MAX_FORTNIGHT_HRS_ACTIVE}"
+                                enabled="{eu>/editMode}"
+                                customTextOn="Active"
+                                customTextOff="In-Active"/>
+                        </HBox>
+ 
+                    </f:SimpleForm>
+ 
+                </Panel>
+ 
+                <Panel
+                    expandable="true"
+                    expanded="true"
+                    headerText="Break Requirements">
+ 
+                    <f:SimpleForm
+                        editable="{eu>/editMode}"
+                        layout="ResponsiveGridLayout">
+ 
+                        <Label text="Break Required After (Hours)"/>
+                        <HBox alignItems="Center">
+                            <StepInput
+                                value="{eu>/BREAK_AFTER_HRS}"
+                                width="12rem"
+                                min="0"
+                                max="24"
+                                step="0.01"
+                                displayValuePrecision="2"/>
+                            <Switch
+                                class="sapUiTinyMarginBegin driverRegulationStatusSwitch"
+                                state="{eu>/BREAK_AFTER_HRS_ACTIVE}"
+                                enabled="{eu>/editMode}"
+                                customTextOn="Active"
+                                customTextOff="In-Active"/>
+                        </HBox>
+ 
+                        <Label text="Break Duration (Minutes)"/>
+                        <HBox alignItems="Center">
+                            <StepInput
+                                value="{eu>/BREAK_DURATION_MIN}"
+                                width="12rem"
+                                min="0"
+                                max="120"
+                                step="0.01"
+                                displayValuePrecision="2"/>
+                            <Switch
+                                class="sapUiTinyMarginBegin driverRegulationStatusSwitch"
+                                state="{eu>/BREAK_DURATION_MIN_ACTIVE}"
+                                enabled="{eu>/editMode}"
+                                customTextOn="Active"
+                                customTextOff="In-Active"/>
+                        </HBox>
+ 
+                    </f:SimpleForm>
+ 
+                </Panel>
+ 
+                <Panel
+                    expandable="true"
+                    expanded="true"
+                    headerText="Rest Requirements">
+ 
+                    <f:SimpleForm
+                        editable="{eu>/editMode}"
+                        layout="ResponsiveGridLayout">
+ 
+                        <Label text="Daily Rest Period (Hours)"/>
+                        <HBox alignItems="Center">
+                            <StepInput
+                                value="{eu>/DAILY_REST_HRS}"
+                                width="12rem"
+                                min="0"
+                                max="24"
+                                step="0.01"
+                                displayValuePrecision="2"/>
+                            <Switch
+                                class="sapUiTinyMarginBegin driverRegulationStatusSwitch"
+                                state="{eu>/DAILY_REST_HRS_ACTIVE}"
+                                enabled="{eu>/editMode}"
+                                customTextOn="Active"
+                                customTextOff="In-Active"/>
+                        </HBox>
+ 
+                        <Label text="Reduced Daily Rest (Hours)"/>
+                        <HBox alignItems="Center">
+                            <StepInput
+                                value="{eu>/REDUCED_DAILY_REST_HRS}"
+                                width="12rem"
+                                min="0"
+                                max="24"
+                                step="0.01"
+                                displayValuePrecision="2"/>
+                            <Switch
+                                class="sapUiTinyMarginBegin driverRegulationStatusSwitch"
+                                state="{eu>/REDUCED_DAILY_REST_HRS_ACTIVE}"
+                                enabled="{eu>/editMode}"
+                                customTextOn="Active"
+                                customTextOff="In-Active"/>
+                        </HBox>
+ 
+                        <Label text="Weekly Rest Period (Hours)"/>
+                        <HBox alignItems="Center">
+                            <StepInput
+                                value="{eu>/WEEKLY_REST_HRS}"
+                                width="12rem"
+                                min="0"
+                                max="100"
+                                step="0.01"
+                                displayValuePrecision="2"/>
+                            <Switch
+                                class="sapUiTinyMarginBegin driverRegulationStatusSwitch"
+                                state="{eu>/WEEKLY_REST_HRS_ACTIVE}"
+                                enabled="{eu>/editMode}"
+                                customTextOn="Active"
+                                customTextOff="In-Active"/>
+                        </HBox>
+ 
+                        <Label text="Maximum Consecutive Working Days"/>
+                        <HBox alignItems="Center">
+                            <StepInput
+                                value="{eu>/MAX_CONSEC_WORK_DAYS}"
+                                width="12rem"
+                                min="1"
+                                max="14"
+                                step="0.01"
+                                displayValuePrecision="2"/>
+                            <Switch
+                                class="sapUiTinyMarginBegin driverRegulationStatusSwitch"
+                                state="{eu>/MAX_CONSEC_WORK_DAYS_ACTIVE}"
+                                enabled="{eu>/editMode}"
+                                customTextOn="Active"
+                                customTextOff="In-Active"/>
+                        </HBox>
+ 
+                    </f:SimpleForm>
+ 
+                </Panel>
+ 
+                <Panel
+                    expandable="true"
+                    expanded="true"
+                    headerText="Compliance Summary">
+ 
+                    <ObjectStatus
+                        icon="{= ${eu>/ACTIVE} ? 'sap-icon://accept' : 'sap-icon://status-inactive'}"
+                        state="{= ${eu>/ACTIVE} ? 'Success' : 'None'}"
+                        text="{= ${eu>/ACTIVE} ? ${eu>/REGULATION_ID} + ' Active' : ${eu>/REGULATION_ID} + ' Inactive'}"/>
+ 
+                    <ObjectStatus
+                        icon="sap-icon://calendar"
+                        text="{= 'Version : ' + ${eu>/REGULATION_VERSION} }"/>
+ 
+                    <ObjectStatus
+                        icon="sap-icon://world"
+                        text="{= 'Country : ' + ${eu>/COUNTRY_CODE} }"/>
+ 
+                </Panel>
+ 
+            </VBox>
+ 
+        </content>
+ 
+        <beginButton>
+ 
+            <Button
+                text="Save"
+                type="Emphasized"
+                icon="sap-icon://save"
+                press=".onSaveEURegulation"/>
+ 
+        </beginButton>
+ 
+        <endButton>
+ 
+            <Button
+                text="Close"
+                icon="sap-icon://decline"
+                press=".onCloseEURegulation"/>
+ 
+        </endButton>
+ 
+    </Dialog>
+ 
+</core:FragmentDefinition>

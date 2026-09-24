@@ -17,14 +17,60 @@ sap.ui.define([
 		onInit: function () {
 
 			var oDataModel = this.getOwnerComponent().getModel("data");
+
+			var oToday = new Date();
+			var oFirstDay = new Date(
+				oToday.getFullYear(),
+				oToday.getMonth(),
+				1
+			);
+
+			var oFromDate = new Date(oToday);
+			oFromDate.setDate(oFromDate.getDate() - 7);
+
+			var oToDate = new Date(oToday);
+			oToDate.setDate(oToDate.getDate() + 7);
+
+			this.byId("dpFromDate").setDateValue(oFromDate);
+			this.byId("dpToDate").setDateValue(oToDate);
+
 			//console.log(oDataModel.getProperty("/Requirements"));
 			// var aDeferredGroups = oDataModel.getDeferredGroups();
 			// aDeferredGroups = aDeferredGroups.concat(["deferred"]);
 			// oDataModel.setDeferredGroups(aDeferredGroups);
 
-
 			var m = this.getOwnerComponent().getModel("data");
 			if (!m) return;
+
+			var oToday = new Date();
+
+			// // First day of current month
+			// var oStart = new Date(
+			// 	oToday.getFullYear(),
+			// 	oToday.getMonth(),
+			// 	1
+			// );
+
+			// // Last day of current month
+			// var oEnd = new Date(
+			// 	oToday.getFullYear(),
+			// 	oToday.getMonth() + 1,
+			// 	0
+			// );
+
+			// var formatGanttDate = function (oDate) {
+			// 	return oDate.getFullYear() +
+			// 		String(oDate.getMonth()).padStart(2, "0") +
+			// 		String(oDate.getDate()).padStart(2, "0") +
+			// 		"000000";
+			// };
+
+			// var oViewModel = new sap.ui.model.json.JSONModel({
+			// 	horizonStart: formatGanttDate(oStart),
+			// 	horizonEnd: formatGanttDate(oEnd)
+			// });
+
+			// this.getView().setModel(oViewModel, "horizon");
 
 			this.iNewFOCount = 0;
 			var oGantt1 = this.getView().byId("FreightOrder");
@@ -46,6 +92,7 @@ sap.ui.define([
 					//oGantt1.setShowBirdEye(true);
 				}
 			});
+			this.onLoadData();
 			/********************************************************************************************* */
 			var oGantt2 = this.getView().byId("Truck");
 			var oFullScreenButton2 = new sap.m.Button({
@@ -64,7 +111,7 @@ sap.ui.define([
 				}
 			});
 
-			 //this.getView().getModel("data").setProperty("/aShapes", aShapes);
+			//this.getView().getModel("data").setProperty("/aShapes", aShapes);
 			/********************************************************************************************* */
 			// var oGantt3 = this.getView().byId("Driver");
 			// var oFullScreenButton3 = new sap.m.Button({
@@ -88,11 +135,45 @@ sap.ui.define([
 			oGantt.toggleFullScreen(bShowToolbar, oButton);
 			if (oGantt.fullScreenMode()) {
 				oButton.setIcon("sap-icon://exit-full-screen");
-				this.getView().byId("layoutSelect").setVisible(false);
+				//this.getView().byId("layoutSelect").setVisible(false);
 			} else {
 				oButton.setIcon("sap-icon://full-screen");
-				this.getView().byId("layoutSelect").setVisible(true);
+				//this.getView().byId("layoutSelect").setVisible(true);
 			}
+		},
+
+		onLoadData: async function () {
+
+			var oFromDate = this.byId("dpFromDate").getDateValue();
+			var oToDate = this.byId("dpToDate").getDateValue();
+			var oDc = this.byId("ownerSelect").getSelectedKey();
+
+			if (!oFromDate || !oToDate) {
+				sap.m.MessageToast.show("Please select From Date and To Date");
+				return;
+			}
+
+			await this.getOwnerComponent().loadMasterData(
+				oFromDate,
+				oToDate,
+				oDc
+			);
+		},
+		onFilter: function () {
+			this.applyFilters();
+
+		},
+
+		applyFilters: function () {
+
+			const oView = this.getView();
+			const oFilterData = {
+				fromDateTime: oView.byId("dpFromDate").getDateValue(),
+				toDateTime: oView.byId("dpToDate").getDateValue()
+			};
+
+			this.onLoadData();
+
 		},
 
 		onShapeDrop: async function (oEvent) {
@@ -173,7 +254,7 @@ sap.ui.define([
 
 					var oTargetRow = oEvent.getParameter("targetRow");
 					var oTargetObject = oTargetRow.getBindingContext("data").getObject();
-					var sTargetObjectType = oTargetObject.Type;
+					var sTargetObjectType = oTargetObject.resourceType;
 
 					var oDataModel = this.getOwnerComponent().getModel("data");
 					var oDataModel = oSourceGantt.getModel("data");
@@ -190,16 +271,15 @@ sap.ui.define([
 
 						var sType = oDataModel.getProperty(sPath + "/Type");
 
-						that.handleMoveFreightOrderToTruck(oNewDateTime.toISOString().replace(".000", ""), oNewEndDateTime.toISOString().replace(".000", ""), oTargetObject, sPath, oDataModel, iMoveWidthInMs);
-
-						if (sTargetObjectType == "Truck") {
+						if (sTargetObjectType == "09") {
 							if (sType == "FO") {
-								that.handleMoveFreightOrderToTruck(oNewDateTime, oNewEndDateTime, oTargetObject, sPath, oDataModel, iMoveWidthInMs);
+								that.handleMoveFreightOrderToTruck(oNewDateTime.toISOString().replace(".000", ""), oNewEndDateTime.toISOString().replace(".000", ""), oTargetObject, sPath, oDataModel, iMoveWidthInMs);
 							} else if (sType == "FU") {
 								if (oData.PlanStatus == "unplanned") {
-									that.handleMoveFreightUnitToTruck(oNewDateTime, oNewEndDateTime, oTargetObject, sPath, oDataModel);
+									that.handleMoveFreightUnitToTruck(oNewDateTime.toISOString().replace(".000", ""), oNewEndDateTime.toISOString().replace(".000", ""), oTargetObject, sPath, oDataModel);
 								}
 							}
+							that.handleMoveFreightOrderToTruck(oNewDateTime.toISOString().replace(".000", ""), oNewEndDateTime.toISOString().replace(".000", ""), oTargetObject, sPath, oDataModel, iMoveWidthInMs);
 						}
 					});
 					sap.m.MessageToast.show(`Freight Order updated successfully. Start: ${oNewDateTime}, End: ${oNewEndDateTime}`);
@@ -262,7 +342,7 @@ sap.ui.define([
 
 			var oData = oModel.getObject(sPath);
 			var sCurrentResourceID = oData.id;
-			var sTargetResourceID = oTargetObject.id;
+			var sTargetResourceID = oTargetObject.resourceId;
 
 			if (sCurrentResourceID !== sTargetResourceID) {
 				oData.StartTime = oTime;
@@ -281,7 +361,9 @@ sap.ui.define([
 					},
 					refreshAfterChange: false
 				};
-				oModel.update(sPath, oData, mParameters);
+				//oModel.update(sPath, oData, mParameters);
+				oModel.setProperty(sPath, oData);
+				oModel.refresh(true);
 			} else {
 				oModel.setProperty(sPath + "/Departure_Time", oTime, true);
 				oModel.setProperty(sPath + "/Arrival_Time", oEndTime, true);
@@ -300,6 +382,28 @@ sap.ui.define([
 					oModel.setProperty(sPath + "/Departure_Time", oTime);
 					oModel.setProperty(sPath + "/Arrival_Time", oEndTime);
 				});
+
+			
+
+
+			if (!this.aChangedFOs) {
+				this.aChangedFOs = [];
+			}
+
+			var sFormatted = oTime
+				.replace(/[-:]/g, "")
+				.replace("T", "")
+				.replace("Z", "");
+
+			this.aChangedFOs.push({
+
+				IvTorKey: oData.transportationOrderUUID.replace(/-/g, "").toUpperCase(),
+				IvTorID: oData.id,
+				IvNewDepartureDatetime: sFormatted,
+				IvDriverId: "",
+				IvVehicleResId: ""
+			});
+
 
 			// oModel.read('/Requirements', {
 			// 	success: function (oData) {
@@ -631,19 +735,240 @@ sap.ui.define([
 				oContainer.showWrapper(this._toggleoverlayforcontainer);
 			}
 		},
-		onSaveData: function () {
+		onSaveData: async function () {
 
-			this.getModel().callFunction("/SaveFO", {
-				method: "POST",
-				success: function (oData) {
-					sap.m.MessageToast.show("Saved successfully");
-				},
-				error: function (oError) {
-					sap.m.MessageToast.show("Save failed");
-				}
+			if (!this.aChangedFOs || this.aChangedFOs.length === 0) {
+				sap.m.MessageToast.show("No changes found");
+				return;
+			}
+
+			try {
+
+				const payload = {
+					Updates: this.aChangedFOs
+				};
+
+				await FreightOrderService.SaveFO(payload);
+
+
+
+				this.aChangedFOs = [];
+
+				await this.getOwnerComponent().loadMasterData();
+				this.getView().getModel("data").refresh(true);
+
+				sap.m.MessageToast.show("Freight Orders saved successfully and refreshed successfully");
+
+			} catch (error) {
+
+				sap.m.MessageToast.show("Save failed");
+				console.error(error);
+			}
+
+		},
+		onAISettings: function () {
+			if (!this._oAISettingsDialog) {
+				this._oAISettingsDialog =
+					sap.ui.xmlfragment(
+						this.getView().getId(),
+						"dispatcherns.dispatcherproj.view.AISettings",
+						this
+					);
+				//"dispatcherns.dispatcherproj.view.OrderCreate"
+				this.getView().addDependent(
+					this._oAISettingsDialog
+				);
+			}
+			this._oAISettingsDialog.open();
+		},
+
+		onApplyAISettings: function () {
+			var oSettings =
+				this.getView().getModel("ai").getData();
+			console.log("AI Settings", oSettings);
+			MessageToast.show(
+				"AI Optimization Settings Applied"
+			);
+			this._oAISettingsDialog.close();
+		},
+
+		onResetAISettings: function () {
+			this.getView().getModel("ai").setData({
+
+				outsideShiftHours: 2,
+				workloadFactor: 70,
+				maxIdleTime: 2,
+				driverPreference: true,
+				emptyMiles: true,
+				homeLocation: true,
+				overtimeOptimization: false,
+				strategyIndex: 1
 			});
+			MessageToast.show(
+				"Settings Reset"
+			);
+		},
 
-		}
+		onAIAnalytics: function () {
+			if (!this._oAIAnalyticsPage) {
+				this._oAIAnalyticsPage =
+					sap.ui.xmlfragment(
+						this.getView().getId(),
+						"dispatcherns.dispatcherproj.view.AIAnalytics",
+						this
+					);
+				this.getView().getParent().addPage(this._oAIAnalyticsPage);
+			}
+			this._loadAnalyticsData();
+			this.getView().getParent().to(this._oAIAnalyticsPage.getId());
+			window.open(this._oAIAnalyticsPage, "_blank");
+		},
+
+		onCloseAIAnalytics: function () {
+			this.getView().getParent().back();
+		},
+
+		_loadAnalyticsData: function () {
+			var oModel = new sap.ui.model.json.JSONModel({
+				aiAdoption: 89,
+				foCoverage: 98,
+				planningScore: 87,
+				complianceScore: 100,
+				costSavings: 12450,
+				aiVsManual: [
+					{
+						metric: "Coverage",
+						ai: "98%",
+						manual: "93%"
+					},
+					{
+						metric: "Empty Miles",
+						ai: "890",
+						manual: "1120"
+					},
+					{
+						metric: "Idle Hours",
+						ai: "214",
+						manual: "302"
+					}
+				],
+				assignmentQuality: [
+					{
+						metric: "Workload Balance",
+						score: 91
+					},
+					{
+						metric: "Route Quality",
+						score: 94
+					},
+					{
+						metric: "Vehicle Utilization",
+						score: 88
+					},
+					{
+						metric: "Time Window Adherence",
+						score: 97
+					}
+				],
+				driverUtilization: [
+					{
+						driverName: "Driver D001",
+						utilization: 92
+					},
+					{
+						driverName: "Driver D002",
+						utilization: 78
+					},
+					{
+						driverName: "Driver D003",
+						utilization: 64
+					},
+					{
+						driverName: "Driver D004",
+						utilization: 88
+					}
+				]
+			});
+			this._oAIAnalyticsPage.setModel(
+				oModel,
+				"analytics"
+			);
+		},
+
+		onEURegulations: function () {
+			this._loadEURegulationData();
+
+			if (!this._oEUDialog) {
+
+				this._oEUDialog = sap.ui.xmlfragment(
+					this.getView().getId(),
+					"dispatcherns.dispatcherproj.view.driverRegulations",
+					this
+				);
+
+				this.getView().addDependent(this._oEUDialog);
+			}
+
+			this._oEUDialog.open();
+		},
+
+		_loadEURegulationData: function () {
+			var oModel = this.getView().getModel("eu");
+
+			if (!oModel) {
+				oModel = new JSONModel({
+					editMode: false,
+					REGULATION_ID: "EU561",
+					COUNTRY_CODE: "EU",
+					REGULATION_VERSION: "561/2006",
+					MAX_DAILY_DRIVING_HRS: 9,
+					EXTENDED_DAILY_HRS: 10,
+					MAX_WEEKLY_HRS: 56,
+					MAX_FORTNIGHT_HRS: 90,
+					BREAK_AFTER_HRS: 4.5,
+					BREAK_DURATION_MIN: 45,
+					DAILY_REST_HRS: 11,
+					REDUCED_DAILY_REST_HRS: 9,
+					WEEKLY_REST_HRS: 45,
+					MAX_CONSEC_WORK_DAYS: 6,
+					ACTIVE: true,
+					VALID_FROM: "2026-01-01",
+					VALID_TO: "9999-12-31"
+				});
+
+				this.getView().setModel(oModel, "eu");
+			}
+		},
+
+		onCreateEURegulation: function () {
+			var oModel = this.getView().getModel("eu");
+			oModel.setProperty("/editMode", true);
+			MessageToast.show("New regulation version ready for editing");
+		},
+
+		onEditEURegulation: function () {
+			var oModel = this.getView().getModel("eu");
+			oModel.setProperty("/editMode", true);
+		},
+
+		onCloseEURegulation: function () {
+			this._oEUDialog.close();
+		},
+
+		onSaveEURegulation: function () {
+			var oModel = this.getView().getModel("eu");
+			var oData =
+				this.getView()
+					.getModel("eu")
+					.getData();
+
+			// OData create/update call
+
+			MessageToast.show(
+				"Driver Regulation Configuration Saved..."
+			);
+			oModel.setProperty("/editMode", false);
+		},
 
 
 	});

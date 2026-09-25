@@ -27,8 +27,7 @@
 				selectionMode="Single"
 				selectionBehavior="RowSelector"
 				enableColumnReordering="true"
-				fixedColumnCount = "1"
-				class="truckTable"
+				fixedColumnCount = "1"				
 				rows="{
 					path: 'data>/Resources',
 					parameters: {
@@ -37,7 +36,7 @@
 				}">
 				<extension>
 					<m:OverflowToolbar class="truckToolbar">
-						<m:Title text="Vehicle Planning" level="H2"/> 
+						<m:Title text="Vehicle Planning" level="H2" /> 
 						<m:ToolbarSpacer/>
 						<m:Button icon="sap-icon://expand-all" type="Transparent" press=".showUtilization"/>
 						<m:Button icon="sap-icon://collapse-all" type="Transparent" press=".hideUtilization"/>
@@ -285,6 +284,10 @@
 					</gnt2:GanttRowSettings>
 				</rowSettingsTemplate>
 				<columns>
+					<Column>
+						<m:Text text="Select"/>
+						<m:CheckBox text="Select" selected="{data>selected}" select=".onSelectTruck"></m:CheckBox>
+					</Column>
 					<Column sortProperty="resourceId" filterProperty="resourceId">
 						<m:Text text="Vehicle ID"/>
 						<template>

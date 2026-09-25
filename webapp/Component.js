@@ -49,7 +49,7 @@ sap.ui.define([
 
             this.setModel(oDataModel, "data");
 
-            //this.loadMasterData();
+            this.loadMasterData();
 
 
             this.setModel(

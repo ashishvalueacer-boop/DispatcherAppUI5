@@ -36,8 +36,11 @@
 				<extension>
 					<m:OverflowToolbar class="driverToolbar">
 						<m:Title text="Drivers Planning" level="H2"/> 
+						<m:ToolbarSpacer/>
 						<m:Button icon="sap-icon://expand-all" type="Transparent" press=".showUtilization"/>
 						<m:Button icon="sap-icon://collapse-all" type="Transparent" press=".hideUtilization"/>
+						<m:Button icon="sap-icon://refresh"/>	
+						
 					</m:OverflowToolbar>
 				</extension>
 				<rowMode>
@@ -70,6 +73,9 @@
 					</gnt2:GanttRowSettings>
 				</rowSettingsTemplate>
 				<columns>
+					<Column>
+						<m:CheckBox text="Select" selected="{data>selected}" select=".onSelectDriver"></m:CheckBox>
+					</Column>
 					<Column sortProperty="driverId" filterProperty="driverId">
 						<m:Text text="Driver ID"/>
 						<template>

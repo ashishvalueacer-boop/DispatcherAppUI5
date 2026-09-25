@@ -1,9 +1,11 @@
-<core:FragmentDefinition 
+<core:FragmentDefinition xmlns:table="sap.fe.macros.table" 
 	xmlns="sap.ui.table"
 	xmlns:m="sap.m"
 	xmlns:core="sap.ui.core">
-
-	<Column sortProperty="id" filterProperty="id">
+	<Column>
+		<m:CheckBox text="Select" selected="{data>selected}" select=".onSelectFO"></m:CheckBox>
+	</Column>
+	<Column sortProperty="id" filterProperty="id">	
 		<m:Text text="Freight Order ID" wrapping="false"/>
 		<template>
 			<m:HBox>

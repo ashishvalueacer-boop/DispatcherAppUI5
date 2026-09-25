@@ -296,84 +296,87 @@
 }
 
 .dashboardHeader {
-   background:linear-gradient(
-90deg,
-#0A6ED1,
-#2563EB
-);
-color:white;
-padding:0.75rem;
-}
-.customGanttToolbar{
-background-color: #4b8ac9;
-border-bottom: 1px solid #d9d9d9;
-width: 70%;
+    background: linear-gradient(90deg,
+            #0A6ED1,
+            #2563EB);
+    color: white;
+    padding: 0.75rem;
 }
 
-.sapGanttChart{
-border-radius:8px;
-box-shadow:0 2px 8px rgba(0,0,0,0.08);
+.customGanttToolbar {
+    background-color: #4b8ac9;
+    border-bottom: 1px solid #d9d9d9;
+    width: 70%;
 }
 
-.sapGanttChartHeader{
-background:#f5f6f7;
-}
-.sapGanttChartSvg{
-background:#ffffff;
+.sapGanttChart {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
-.truckGanttCard{
-border-radius:12px;
-background:#baccdf;
-box-shadow:0 0.125rem 0.75rem rgba(0,0,0,0.08);
+.sapGanttChartHeader {
+    background: #f5f6f7;
 }
 
-.foGanttCard{
-border-radius:12px;
-background:#baccdf;
-box-shadow:0 0.125rem 0.75rem rgba(0,0,0,0.08);
+.sapGanttChartSvg {
+    background: #ffffff;
 }
 
-.resourceGanttCard{
-border-radius:12px;
-background:#baccdf;
-box-shadow:0 0.125rem 0.75rem rgba(0,0,0,0.08);
+.truckGanttCard {
+    border-radius: 12px;
+    background: #baccdf;
+    box-shadow: 0 0.125rem 0.75rem rgba(0, 0, 0, 0.08);
 }
 
-.truckTable .sapUiTableColHdrCnt{
-background:#baccdf;
-border-bottom:1px solid #e5e7eb;
+.foGanttCard {
+    border-radius: 12px;
+    background: #baccdf;
+    box-shadow: 0 0.125rem 0.75rem rgba(0, 0, 0, 0.08);
 }
- 
-.truckTable .sapUiTableCol{
-font-weight:600;
+
+.resourceGanttCard {
+    border-radius: 12px;
+    background: #baccdf;
+    box-shadow: 0 0.125rem 0.75rem rgba(0, 0, 0, 0.08);
 }
+
+.truckTable .sapUiTableColHdrCnt {
+    background: #baccdf;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.truckTable .sapUiTableCol {
+    font-weight: 600;
+}
+
 /* Modern Toolbar */
-.truckToolbar{
-background:#baccdf;
-border-bottom:1px solid #e5e7eb;
+.truckToolbar {
+    background: #a0b7ce;
+    border-bottom: 1px solid #e5e7eb;
 }
 
-.foToolbar{
-background:#baccdf;
-border-bottom:1px solid #e5e7eb;
+.foToolbar {
+    background: #a0b7ce;
+    border-bottom: 1px solid #e5e7eb;
 }
-.driverToolbar{
-background:#baccdf;
-border-bottom:1px solid #e5e7eb;
+
+.driverToolbar {
+    background: #a0b7ce;
+    border-bottom: 1px solid #e5e7eb;
 }
 
 /* Alternate Row Coloring */
-.sapUiTableRowEven{
-background:#fafafa;
+.sapUiTableRowEven {
+    background: #fafafa;
 }
- 
-.sapUiTableRowOdd{
-background:#ffffff;
+
+.sapUiTableRowOdd {
+    background: #ffffff;
 }
+
 /* Highlight Selected Shape */
-.sapGanttSelectedShape{
-filter: drop-shadow(0px 0px 8px rgba(37,99,235,0.5));
+.sapGanttSelectedShape {
+    filter: drop-shadow(0px 0px 8px rgba(37, 99, 235, 0.5));
 }
 
 @media (max-width: 720px) {

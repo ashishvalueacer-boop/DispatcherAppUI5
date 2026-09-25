@@ -29,6 +29,11 @@
 				<extension>
 					<m:OverflowToolbar class="foToolbar">
 						<m:Title text="Freight Order Planning" level="H2"/> 
+						<m:ToolbarSpacer/>
+						
+						<m:Button icon="sap-icon://expand-all" type="Transparent" press=".showUtilization"/>
+						<m:Button icon="sap-icon://collapse-all" type="Transparent" press=".hideUtilization"/>
+						<m:Button icon="sap-icon://refresh"/>	
 						<!-- <m:Select forceSelection="false" selectedKey="FO" change=".onHierarchyChange">
 							<m:items>
 								<core:ListItem key="FOFU" text="Freight Order and Freight Unit"/> 

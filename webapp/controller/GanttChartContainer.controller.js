@@ -153,11 +153,11 @@ sap.ui.define([
 				return;
 			}
 
-			// await this.getOwnerComponent().loadMasterData(
-			// 	oFromDate,
-			// 	oToDate,
-			// 	oDc
-			// );
+			await this.getOwnerComponent().loadMasterData(
+				oFromDate,
+				oToDate,
+				oDc
+			);
 		},
 		onFilter: function () {
 			this.applyFilters();

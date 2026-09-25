@@ -3,12 +3,11 @@ sap.ui.define([
     "./model/models",
     "sap/ui/model/json/JSONModel",
     "sap/ui/model/odata/v2/ODataModel",
-    "sap/ui/model/resource/ResourceModel",
-    "./localService/mockserver",
+    "sap/ui/model/resource/ResourceModel",    
     "./service/FreightOrderService",
     "./service/DriverService",
     "./service/VehicleService",
-], (UIComponent, models, JSONModel, ODataModel, ResourceModel, mockserver, FreightOrderService, DriverService, VehicleService) => {
+], (UIComponent, models, JSONModel, ODataModel, ResourceModel,  FreightOrderService, DriverService, VehicleService) => {
     "use strict";
 
     return UIComponent.extend("dispatcherns.dispatcherproj.Component", {
@@ -20,11 +19,9 @@ sap.ui.define([
                 "async": true
             },
             manifest: "json",
-            interfaces: [
-                "sap.ui.core.IAsyncContentCreation"
-            ]
-
-
+            interfaces: []
+                //"sap.ui.core.IAsyncContentCreation"
+            
         },
 
         init() {
@@ -34,7 +31,6 @@ sap.ui.define([
             // window.addEventListener("resize", this._adjustTableWidth.bind(this));
 
             UIComponent.prototype.init.apply(this, arguments);
-
 
             const oDataModel = new sap.ui.model.json.JSONModel({
                 Requirements: [],
@@ -70,8 +66,8 @@ sap.ui.define([
             this.getRouter().initialize();
         },
         exit: function () {
-            this._oMockServer.stop();
-            this._oMockServer.destroy();
+            //this._oMockServer.stop();
+            //this._oMockServer.destroy();
         },
 
         async loadMasterData(oFromDate, oToDate, oDc) {
@@ -93,16 +89,11 @@ sap.ui.define([
 
                 const [
                     _requirements,
+                    _resources,
                     _drivers,
-                    _resources
                 ] = await Promise.all([
 
                     FreightOrderService.GetBulkfo({
-                        p_start_time: sStartTime,
-                        p_end_time: sEndTime,
-                        p_dc: sDC
-                    }),
-                    DriverService.GetDrv({
                         p_start_time: sStartTime,
                         p_end_time: sEndTime,
                         p_dc: sDC
@@ -111,7 +102,12 @@ sap.ui.define([
                         p_start_time: sStartTime,
                         p_end_time: sEndTime,
                         p_dc: sDC
-                    })
+                    }),
+                    // DriverService.GetDrv({
+                    //     p_start_time: sStartTime,
+                    //     p_end_time: sEndTime,
+                    //     p_dc: sDC
+                    // }),
 
                 ]);
 
@@ -131,9 +127,9 @@ sap.ui.define([
                         })
                     });
 
-                });      
+                });
 
-                var aRequirements =  Array.isArray(_requirements) ? _requirements : (_requirements?.value || []);
+                var aRequirements = Array.isArray(_requirements) ? _requirements : (_requirements?.value || []);
                 aResources.forEach(function (oTruck) {
                     oTruck.FOShapes = aRequirements
                         .filter(function (oFO) {
@@ -149,9 +145,6 @@ sap.ui.define([
 
                         });
                 });
-
-
-
                 this.setModel(
                     new JSONModel({
                         Requirements: _requirements?.value || [],

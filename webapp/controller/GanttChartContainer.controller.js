@@ -1,12 +1,11 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
-	"sap/ui/model/json/JSONModel",
-	"../localService/mockserver",
+	"sap/ui/model/json/JSONModel",	
 	"../model/formatter",
 	"sap/gantt/misc/Utility",
 	"sap/ui/core/Fragment",
 	"../service/FreightOrderService",
-], function (Controller, JSONModel, mockserver, formatter, Utility, Fragment, FreightOrderService) {
+], function (Controller, JSONModel,  formatter, Utility, Fragment, FreightOrderService) {
 	"use strict";
 
 
@@ -17,6 +16,9 @@ sap.ui.define([
 		onInit: function () {
 
 			var oDataModel = this.getOwnerComponent().getModel("data");
+
+			var m = this.getOwnerComponent().getModel("data");
+			if (!m) return;
 
 			var oToday = new Date();
 			var oFirstDay = new Date(
@@ -34,15 +36,22 @@ sap.ui.define([
 			this.byId("dpFromDate").setDateValue(oFromDate);
 			this.byId("dpToDate").setDateValue(oToDate);
 
+			var sSettings =
+				localStorage.getItem("DispatcherZoneSettings");
+
+			if (sSettings) {
+				this._applyZoneSettings(
+					JSON.parse(sSettings)
+				);
+			}
+
 			//console.log(oDataModel.getProperty("/Requirements"));
 			// var aDeferredGroups = oDataModel.getDeferredGroups();
 			// aDeferredGroups = aDeferredGroups.concat(["deferred"]);
 			// oDataModel.setDeferredGroups(aDeferredGroups);
 
-			var m = this.getOwnerComponent().getModel("data");
-			if (!m) return;
 
-			var oToday = new Date();
+
 
 			// // First day of current month
 			// var oStart = new Date(
@@ -331,7 +340,7 @@ sap.ui.define([
 
 			var mParameters = {
 				success: function (oData) {
-					mockserver.refreshResource(oModel, sTargetResourceId);
+					//mockserver.refreshResource(oModel, sTargetResourceId);
 				},
 				refreshAfterChange: false
 			};
@@ -383,7 +392,7 @@ sap.ui.define([
 					oModel.setProperty(sPath + "/Arrival_Time", oEndTime);
 				});
 
-			
+
 
 
 			if (!this.aChangedFOs) {
@@ -637,10 +646,10 @@ sap.ui.define([
 			var oController = this;
 			var mParameters = {
 				success: function (oData) {
-					mockserver.refreshResource(oDataModel, oOrderData.Truck, function () {
-						sap.m.MessageToast.show("Freight Order is created successfully");
-						oController._getOrderCreationDialog(false);
-					});
+					// mockserver.refreshResource(oDataModel, oOrderData.Truck, function () {
+					// 	sap.m.MessageToast.show("Freight Order is created successfully");
+					// 	oController._getOrderCreationDialog(false);
+					// });
 				},
 				error: function (oData) {
 					sap.m.MessageToast.show("Error when creating frieght order");
@@ -968,6 +977,117 @@ sap.ui.define([
 				"Driver Regulation Configuration Saved..."
 			);
 			oModel.setProperty("/editMode", false);
+		},
+
+		onOpenZoneSettings: function () {
+
+			if (!this._oZoneSettingsDialog) {
+
+				this._oZoneSettingsDialog = new sap.m.Dialog({
+					title: "Zone Settings",
+					contentWidth: "450px",
+					draggable: true,
+					resizable: true,
+
+					content: [
+						new sap.m.VBox({
+							class: "sapUiMediumMargin",
+							items: [
+
+								new sap.m.Label({
+									text: "Time Zone"
+								}),
+
+								new sap.m.Select("zoneSelect", {
+									selectedKey: "IST",
+									items: [
+										new sap.ui.core.Item({
+											key: "IST",
+											text: "India (IST)"
+										}),
+										new sap.ui.core.Item({
+											key: "UTC",
+											text: "UTC"
+										}),
+										new sap.ui.core.Item({
+											key: "EST",
+											text: "US Eastern"
+										})
+									]
+								}),
+
+								new sap.m.CheckBox("cbAvailability", {
+									text: "Show Availability",
+									selected: true
+								}),
+
+								new sap.m.CheckBox("cbFreightOrders", {
+									text: "Show Freight Orders",
+									selected: true
+								}),
+
+								new sap.m.CheckBox("cbDrivers", {
+									text: "Show Drivers",
+									selected: true
+								}),
+
+								new sap.m.CheckBox("cbBirdEye", {
+									text: "Enable Bird Eye View",
+									selected: true
+								})
+							]
+						})
+					],
+
+					beginButton: new sap.m.Button({
+						text: "Save",
+						type: "Emphasized",
+						press: this.onSaveZoneSettings.bind(this)
+					}),
+
+					endButton: new sap.m.Button({
+						text: "Cancel",
+						press: function () {
+							this._oZoneSettingsDialog.close();
+						}.bind(this)
+					})
+				});
+
+				this.getView().addDependent(this._oZoneSettingsDialog);
+			}
+
+			this._oZoneSettingsDialog.open();
+		},
+		onSaveZoneSettings: function () {
+
+			var oSettings = {
+				zone: sap.ui.getCore().byId("zoneSelect").getSelectedKey(),
+				showAvailability: sap.ui.getCore().byId("cbAvailability").getSelected(),
+				showFreightOrders: sap.ui.getCore().byId("cbFreightOrders").getSelected(),
+				showDrivers: sap.ui.getCore().byId("cbDrivers").getSelected(),
+				birdEye: sap.ui.getCore().byId("cbBirdEye").getSelected()
+			};
+
+			localStorage.setItem(
+				"DispatcherZoneSettings",
+				JSON.stringify(oSettings)
+			);
+
+			sap.m.MessageToast.show("Settings Saved");
+			this._oZoneSettingsDialog.close();
+			this._applyZoneSettings(oSettings);
+		},
+
+		_applyZoneSettings: function (oSettings) {
+
+			// Example:
+			console.log("Zone Settings:", oSettings);
+
+			// Show / Hide Truck Availability
+			// Show / Hide Freight Orders
+			// Show / Hide Driver View
+			// Update timezone formatting
+			// Toggle Bird Eye View
 		},
 
 

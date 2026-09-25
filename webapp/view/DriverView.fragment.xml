@@ -35,7 +35,7 @@
 				}">
 				<extension>
 					<m:OverflowToolbar class="driverToolbar">
-						<m:Title text="Drivers Planning" level="H2"/> 
+						<m:Title text="Drivers" level="H2"/> 
 						<m:ToolbarSpacer/>
 						<m:Button icon="sap-icon://expand-all" type="Transparent" press=".showUtilization"/>
 						<m:Button icon="sap-icon://collapse-all" type="Transparent" press=".hideUtilization"/>
@@ -58,7 +58,7 @@
 							<gnt2:BaseCalendar  shapeId="Weekend" calendarName="Weekend" fill="#e0ded6"/>
 						</gnt2:calendars> -->
 						<gnt2:calendars>
-							<gnt2:BaseCalendar shapeId="{data>driverId}" calendarName="{data>driverId}" fill="#b9d3e4"/>
+							<gnt2:BaseCalendar shapeId="{data>driverId}" calendarName="{data>driverId}" fill="#ffffff"/>
 						</gnt2:calendars>
 						<gnt2:shapes1>
 							<gnt2:BaseRectangle

@@ -19,7 +19,8 @@
         formatter: '.formatter.dateToObject'}"
     	endTime="{
         path: 'data>Arrival_Time',
-        formatter: '.formatter.dateToObject'}"				
+        formatter: '.formatter.dateToObject'}"	
+		height="22" rx ="6" ry="6"			
 		resizable="false" selectable="true" draggable= "true" 
 		title="{data>id}" showTitle="true" titleColor="black" fill="#99D101"
 		tooltip="{

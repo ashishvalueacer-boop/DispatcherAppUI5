@@ -28,7 +28,7 @@
 				}">
 				<extension>
 					<m:OverflowToolbar class="foToolbar">
-						<m:Title text="Freight Order Planning" level="H2"/> 
+						<m:Title text="Freight Order" level="H2"/> 
 						<m:ToolbarSpacer/>
 						
 						<m:Button icon="sap-icon://expand-all" type="Transparent" press=".showUtilization"/>
@@ -54,7 +54,7 @@
 							<core:Fragment fragmentName="dispatcherns.dispatcherproj.view.Requirement" type="XML" />
 						</gnt2:shapes1>
 						<gnt2:calendars>
-							<gnt2:BaseCalendar shapeId="{data>id}" calendarName="{data>id}" fill="#e0ded6"/>  
+							<gnt2:BaseCalendar shapeId="{data>id}" calendarName="{data>id}" fill="#ffffff"/>  
 							<!-- <gnt2:BaseCalendar  shapeId="data>id" calendarName="Weekend" fill="#b9d3e4"/> -->
 						</gnt2:calendars>
 					</gnt2:GanttRowSettings>

@@ -36,7 +36,7 @@
 				}">
 				<extension>
 					<m:OverflowToolbar class="truckToolbar">
-						<m:Title text="Vehicle Planning" level="H2" /> 
+						<m:Title text="Vehicle" level="H2" /> 
 						<m:ToolbarSpacer/>
 						<m:Button icon="sap-icon://expand-all" type="Transparent" press=".showUtilization"/>
 						<m:Button icon="sap-icon://collapse-all" type="Transparent" press=".hideUtilization"/>
@@ -49,7 +49,7 @@
 				<rowSettingsTemplate>
 					<gnt2:GanttRowSettings rowId="{data>resourceId}" shapes1="{data>AvailabilityShapes}" shapes2="{data>FOShapes}">						
 						<gnt2:calendars>
-							<gnt2:BaseCalendar shapeId="{data>resourceId}" calendarName="{data>resourceId}" fill="#e0ded6"/>
+							<gnt2:BaseCalendar shapeId="{data>resourceId}" calendarName="{data>resourceId}" fill="#ffffff"/>
 						</gnt2:calendars> 
 						 <gnt2:shapes1>
 							<gnt2:BaseDiamond>
@@ -65,8 +65,8 @@
 								path:'data>EndTime',
 								formatter:'.formatter.dateToObject'
 								}"
-								fill="#22C55E"
-								height="25"							
+								fill="#e3f0e8"
+								height="22"							
 								countInBirdEye="true"
 								showTitle="true"
 								tooltip="{
@@ -242,10 +242,11 @@
 								path:'data>EndTime',
 								formatter:'.formatter.dateToObject'
 								}"
-								fill="#2563EB"
+								fill="#99D101"
 								stroke="#ffffff"
-								strokeWidth="2"
-								height="32"							
+								strokeWidth="1"
+								rx="6" ry="6"
+								height="22"							
 								countInBirdEye="true"
 								showTitle="true"
 								title = "{
@@ -288,7 +289,7 @@
 						<m:Text text="Select"/>
 						<m:CheckBox text="Select" selected="{data>selected}" select=".onSelectTruck"></m:CheckBox>
 					</Column>
-					<Column sortProperty="resourceId" filterProperty="resourceId">
+					<Column sortProperty="resourceId" filterProperty="resourceId" width="140px">
 						<m:Text text="Vehicle ID"/>
 						<template>
 							<m:Label text="{data>resourceId}"/>
@@ -300,7 +301,7 @@
 							<m:Label text="{data>resourceType}"/>
 						</template>
 					</Column> -->
-					<Column sortProperty="description" filterProperty="description">
+					<Column sortProperty="description" filterProperty="description" width="140px">
 						<m:Text text="Vehicle Description" />
 						<template>
 							<m:Label text="{data>description}"/>

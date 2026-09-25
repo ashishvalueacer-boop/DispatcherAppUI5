@@ -5,7 +5,7 @@
 	<Column>
 		<m:CheckBox text="Select" selected="{data>selected}" select=".onSelectFO"></m:CheckBox>
 	</Column>
-	<Column sortProperty="id" filterProperty="id">	
+	<Column sortProperty="id" filterProperty="id" width="95px">	
 		<m:Text text="Freight Order ID" wrapping="false"/>
 		<template>
 			<m:HBox>
@@ -28,7 +28,7 @@
 			</m:HBox>
 		</template>
 	</Column> -->
-	<Column sortProperty="Departure_Time" filterProperty="Departure_Time">
+	<Column sortProperty="Departure_Time" filterProperty="Departure_Time" width="130px">
 		<m:Text text="Departure Time" wrapping="false"/>
 		<template>
 			<m:Label text="{data>Departure_Time}"/>
@@ -39,7 +39,7 @@
 						color="{= ${data>PlanStatus} === 'planned' ? 'Positive' : 'Negative' }"/> -->
 		</template>
 	</Column>
-	<Column sortProperty="Arrival_Time" filterProperty="Arrival_Time">
+	<Column sortProperty="Arrival_Time" filterProperty="Arrival_Time" width="130px">
 		<m:Text text="Arrival Time" wrapping="false"/>
 		<template>
 			<m:Label text="{data>Arrival_Time}"/>

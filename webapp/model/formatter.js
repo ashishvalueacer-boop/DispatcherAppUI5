@@ -123,7 +123,8 @@ sap.ui.define(["sap/ui/model/type/Currency"], function (Currency) {
 
             // Handle standard ISO format:
             // 2026-09-08T07:16:35Z
-            var oDate = new Date(sDate);
+            var oDate = new Date(sDate);           
+
 
             if (!isNaN(oDate.getTime())) {
                 return oDate;
@@ -138,50 +139,68 @@ sap.ui.define(["sap/ui/model/type/Currency"], function (Currency) {
         },
         dateToNewObject: function (sDate) {
 
-			if (!sDate) {
-				return null;
-			}
+            if (!sDate) {
+                return null;
+            }
 
-			var oMatch;
+            var sUTC = sap.ui.core.format.DateFormat
+                .getDateTimeInstance({
+                    pattern: "yyyyMMddHHmmss",
+                    UTC: true
+                })
+                .format(sDate);
 
-			switch (true) {
+            var sIST = sap.ui.core.format.DateFormat
+                .getDateTimeInstance({
+                    pattern: "yyyyMMddHHmmss",
+                    UTC: false
+                })
+                .format(sDate);
 
-				// Format: 2026-09-22T044441Z
-				case /^\d{4}-\d{2}-\d{2}T\d{6}Z$/.test(sDate):
-					oMatch = sDate.match(
-						/^(\d{4})-(\d{2})-(\d{2})T(\d{2})(\d{2})(\d{2})Z$/
-					);
+            sap.m.MessageToast.show("sUTC" +  sUTC);
+            sap.m.MessageToast.show("sIST" +  sIST);
 
-					return new Date(
-						Number(oMatch[1]),
-						Number(oMatch[2]) - 1,
-						Number(oMatch[3]),
-						Number(oMatch[4]),
-						Number(oMatch[5]),
-						Number(oMatch[6])
-					);
+            var oMatch;
 
-				// Format: 20260922044441
-				case /^\d{14}$/.test(sDate):
-					oMatch = sDate.match(
-						/^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})$/
-					);
+            switch (true) {
 
-					return new Date(
-						Number(oMatch[1]),
-						Number(oMatch[2]) - 1,
-						Number(oMatch[3]),
-						Number(oMatch[4]),
-						Number(oMatch[5]),
-						Number(oMatch[6])
-					);
+                // Format: 2026-09-22T044441Z
+                case /^\d{4}-\d{2}-\d{2}T\d{6}Z$/.test(sDate):
 
-				default:
-					return null;
-			}		
+                    oMatch = sDate.match(
+                        /^(\d{4})-(\d{2})-(\d{2})T(\d{2})(\d{2})(\d{2})Z$/
+                    );
 
-			
-		},
+                    return new Date(
+                        Number(oMatch[1]),
+                        Number(oMatch[2]) - 1,
+                        Number(oMatch[3]),
+                        Number(oMatch[4]),
+                        Number(oMatch[5]),
+                        Number(oMatch[6])
+                    );
+
+                // Format: 20260922044441
+                case /^\d{14}$/.test(sDate):
+                    oMatch = sDate.match(
+                        /^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})$/
+                    );
+
+                    return new Date(
+                        Number(oMatch[1]),
+                        Number(oMatch[2]) - 1,
+                        Number(oMatch[3]),
+                        Number(oMatch[4]),
+                        Number(oMatch[5]),
+                        Number(oMatch[6])
+                    );
+
+                default:
+                    return null;
+            }
+
+
+        },
         formatDate: function (oDate) {
 
             return oDate.getFullYear() +

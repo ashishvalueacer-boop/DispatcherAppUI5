@@ -10,12 +10,12 @@
 	<m:Page title="Dispatcher Cockpit for Driver and Vehicle assignment with Freight order"   showNavButton="true" contentOnlyBusy="true">
 	<m:customHeader>
 	<m:OverflowToolbar>
-			<m:Title text="Dispatcher Cockpit- Driver and Truck Availability & Freight Assignment" />
+			<m:Title text="Dispatcher Cockpit- Driver and Truck Availability Freight Assignment" />
 			<m:ToolbarSpacer/>
 			<m:Button text="Use AI Proposal" icon="sap-icon://ai" type="Emphasized" press=".onUseAIProposal"/>
 			<m:Button text="AI Settings" icon="sap-icon://action-settings" press=".onAISettings"/>
 			<m:Button text="AI Analytics" icon="sap-icon://line-chart"   press=".onAIAnalytics"/>
-			<m:Button text="EU Regulations" icon="sap-icon://world" tooltip="Maintain EU Driver Regulations" press=".onEURegulations"/>
+			<m:Button text="Driver Regulations" icon="sap-icon://world" tooltip="Maintain EU Driver Regulations" press=".onEURegulations"/>
 			</m:OverflowToolbar>
 	</m:customHeader>
 	   

@@ -18,6 +18,7 @@
 			shapeDrop=".onShapeDrop"
 			shapeResize=".onOrderRescheduled"
 			shapeDoubleClick=".onShapeDoubleClick"
+			class="resourceGanttCard"
 			>
 		<gnt2:table>
 			<Table
@@ -33,7 +34,8 @@
 					}
 				}">
 				<extension>
-					<m:OverflowToolbar>
+					<m:OverflowToolbar class="driverToolbar">
+						<m:Title text="Drivers Planning" level="H2"/> 
 						<m:Button icon="sap-icon://expand-all" type="Transparent" press=".showUtilization"/>
 						<m:Button icon="sap-icon://collapse-all" type="Transparent" press=".hideUtilization"/>
 					</m:OverflowToolbar>

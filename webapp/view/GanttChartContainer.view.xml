@@ -7,22 +7,23 @@
           xmlns:core="sap.ui.core"
           xmlns:m="sap.m"
           xmlns:gnt2="sap.gantt.simple">
-	<m:Page title="Dispatcher Cockpit for Driver and Vehicle assignment with Freight order" showNavButton="true" contentOnlyBusy="true">
+	<m:Page title="Dispatcher Cockpit for Driver and Vehicle assignment with Freight order"   showNavButton="true" contentOnlyBusy="true">
 	<m:customHeader>
-<m:OverflowToolbar>
-<m:Title text="Dispatcher Cockpit"/>
-<m:ToolbarSpacer/>
-<m:Button text="Use AI Proposal" icon="sap-icon://ai" type="Emphasized" press=".onUseAIProposal"/>
-<m:Button text="AI Settings" icon="sap-icon://action-settings" press=".onAISettings"/>
-<m:Link text="AI Analytics" icon="sap-icon://line-chart"  target="_blank"  press=".onAIAnalytics"/>
-<m:Button text="EU Regulations" icon="sap-icon://world" tooltip="Maintain EU Driver Regulations" press=".onEURegulations"/>
-</m:OverflowToolbar>
-</m:customHeader>
+	<m:OverflowToolbar>
+			<m:Title text="Dispatcher Cockpit- Driver and Truck Availability & Freight Assignment" />
+			<m:ToolbarSpacer/>
+			<m:Button text="Use AI Proposal" icon="sap-icon://ai" type="Emphasized" press=".onUseAIProposal"/>
+			<m:Button text="AI Settings" icon="sap-icon://action-settings" press=".onAISettings"/>
+			<m:Button text="AI Analytics" icon="sap-icon://line-chart"   press=".onAIAnalytics"/>
+			<m:Button text="EU Regulations" icon="sap-icon://world" tooltip="Maintain EU Driver Regulations" press=".onEURegulations"/>
+			</m:OverflowToolbar>
+	</m:customHeader>
 	   
 		<gnt2:GanttChartContainer id="container" enableTimeScrollSync="true" width="100%" enableAutoFocusOnZoom="true">
-			<gnt2:toolbar>
-				<gnt2:ContainerToolbar id="toolbar" design="Auto" showBirdEyeButton="true" showLegendButton="true" ganttSidePanel=".onGanttSidePanel" showSearchButton="true">				
-				 <m:Label text="From Date" class="sapUiTinyMarginEnd"/>
+			<gnt2:toolbar>				
+				<gnt2:ContainerToolbar id="toolbar" design="Auto" showBirdEyeButton="true" showLegendButton="true" ganttSidePanel=".onGanttSidePanel" showSearchButton="true">		
+				<m:OverflowToolbar class="customGanttToolbar">
+				 <m:Label text="From Date" class="sapUiTinyMarginEnd dashboardHeader"/>
 				 <m:DateTimePicker
                        value=""
                        displayFormat="dd MMM yyyy HH:mm"
@@ -31,7 +32,7 @@
                         id="dpFromDate" 
                         change=".onDateChange"/>
 						
-				 <m:Label text="To Date" class="sapUiSmallMarginBegin sapUiTinyMarginEnd" />	
+				 <m:Label text="To Date" class="sapUiSmallMarginBegin sapUiTinyMarginEnd dashboardHeader" />	
 				  <m:DateTimePicker
                         value=""
                        displayFormat="dd MMM yyyy HH:mm"
@@ -40,7 +41,7 @@
                         id="dpToDate"
                         change=".onDateChange"/>
 						
-				  <m:Label text="Warehouse" class="sapUiTinyMarginEnd"/>				  
+				  <m:Label text="Warehouse" class="sapUiTinyMarginEnd dashboardHeader"/>				  
 				   <m:Select id="ownerSelect" class="sapUiTinyMarginEnd" forceSelection="false" selectedKey="0001000589" change=".onOwnerChange">				   
 				   	<m:items>									
 							<core:Item key="All" text="All"/>
@@ -57,7 +58,9 @@
                     <m:Button
                         text="Reset"
                         type="Transparent"
-                    />			
+                    />	
+				</m:OverflowToolbar>		
+				 		
 
 					<!-- <m:Select id="layoutSelect" forceSelection="false" selectedKey="ReqAndRes" change=".onLayoutChange">
 						<m:items>						
@@ -70,14 +73,14 @@
 						</m:items>
 					</m:Select> -->
 					<gnt2:legendContainer>
-						<gnt2:LegendContainer id="legendContainer" width="100px" height="270px" enableFlatLegends="true">
+						<gnt2:LegendContainer id="legendContainer" width="250px" height="270px" enableFlatLegends="true">
 							<gnt2:ListLegend id="listLegend" title="Requirement Document">
 								<gnt2:ListLegendItem interactive="false" selected="true" interactiveChange=".onLegendItemInteractiveChange">
 									<gnt2:BaseRectangle shapeId="legendItemFO" fill="#99D101" title="Freight Order" showTitle="false"/>
 								</gnt2:ListLegendItem>
-								<gnt2:ListLegendItem interactive="false" selected="false">
+								<!-- <gnt2:ListLegendItem interactive="false" selected="false">
 									<gnt2:BaseRectangle shapeId="legendItemFU" stroke="#99D101" strokeWidth="2" strokeDasharray="2" fill="#fff" title="Freight Unit" showTitle="false"/>
-								</gnt2:ListLegendItem>
+								</gnt2:ListLegendItem> -->
 							</gnt2:ListLegend>
 							<gnt2:ListLegend id="listLegend1" title="Calenders" visible="true">
 								<gnt2:ListLegendItem interactive="false" selected="false">

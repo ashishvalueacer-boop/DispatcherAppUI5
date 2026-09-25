@@ -11,6 +11,7 @@
 	core:require="{
 		formatMessage: 'sap/base/strings/formatMessage'
 	}">
+	
 	<gnt2:GanttChartWithTable id="Truck" ghostAlignment="Start" adhocLineLayer="Bottom"
 			shapeSelectionMode = "Multiple"
 			enableChartOverflowToolbar="true"
@@ -18,13 +19,16 @@
 			shapeDrop=".onShapeDrop"
 			shapeResize=".onOrderRescheduled"
 			shapeDoubleClick=".onShapeDoubleClick"
-			>
-		<gnt2:table>
+			class="truckGanttCard">
+			
+		<gnt2:table >
+		
 			<Table
 				selectionMode="Single"
 				selectionBehavior="RowSelector"
 				enableColumnReordering="true"
 				fixedColumnCount = "1"
+				class="truckTable"
 				rows="{
 					path: 'data>/Resources',
 					parameters: {
@@ -32,9 +36,12 @@
 					}
 				}">
 				<extension>
-					<m:OverflowToolbar>
+					<m:OverflowToolbar class="truckToolbar">
+						<m:Title text="Vehicle Planning" level="H2"/> 
+						<m:ToolbarSpacer/>
 						<m:Button icon="sap-icon://expand-all" type="Transparent" press=".showUtilization"/>
 						<m:Button icon="sap-icon://collapse-all" type="Transparent" press=".hideUtilization"/>
+						<m:Button icon="sap-icon://refresh"/>						
 					</m:OverflowToolbar>
 				</extension>
 				<rowMode>
@@ -59,7 +66,7 @@
 								path:'data>EndTime',
 								formatter:'.formatter.dateToObject'
 								}"
-								fill="#99D101"
+								fill="#22C55E"
 								height="25"							
 								countInBirdEye="true"
 								showTitle="true"
@@ -236,8 +243,10 @@
 								path:'data>EndTime',
 								formatter:'.formatter.dateToObject'
 								}"
-								fill="#1E3A8A"
-								height="25"							
+								fill="#2563EB"
+								stroke="#ffffff"
+								strokeWidth="2"
+								height="32"							
 								countInBirdEye="true"
 								showTitle="true"
 								title = "{
@@ -254,7 +263,8 @@
 												'data>EndTime'
 											],
 											formatter: 'formatMessage'
-									}"
+									}"									
+								
 								expandable="false" selectable="false" draggable="false" resizable="false"/>	
 						</gnt2:shapes2>
 

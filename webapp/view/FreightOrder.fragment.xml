@@ -12,6 +12,7 @@
 			shapeSelectionSettings="{color:'sapNegativeElementColor', strokeDasharray:'1,0'}"
 			shapeDrop=".onShapeDrop"
 			shapeDoubleClick=".onShapeDoubleClick"
+			class="foGanttCard"
 			>
 		<gnt2:table>
 			<Table
@@ -26,7 +27,8 @@
 					}
 				}">
 				<extension>
-					<m:OverflowToolbar>
+					<m:OverflowToolbar class="foToolbar">
+						<m:Title text="Freight Order Planning" level="H2"/> 
 						<!-- <m:Select forceSelection="false" selectedKey="FO" change=".onHierarchyChange">
 							<m:items>
 								<core:ListItem key="FOFU" text="Freight Order and Freight Unit"/> 

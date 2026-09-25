@@ -3,8 +3,8 @@
   "sap.app": {
     "id": "dispatcherns.dispatcherproj",
     "type": "application",
-    "i18n": "i18n/i18n.properties",
-    "i18n_en": "i18n/i18n_en.properties",
+    "i18n": "./i18n/i18n.properties",
+    "i18n_en": "./i18n/i18n_en.properties",
     "applicationVersion": {
       "version": "0.0.1"
     },
@@ -19,6 +19,7 @@
   },
   "sap.ui": {
     "technology": "UI5",
+    "fullWidth": true,
     "icons": {
       "icon": "",
       "favIcon": "",
@@ -28,6 +29,7 @@
       "tablet@2": ""
     },
     "deviceTypes": {
+      "laptop": true,
       "desktop": true,
       "tablet": true,
       "phone": true
@@ -45,8 +47,8 @@
       },
       "models": {
         "data": {
-          "type": "sap.ui.model.json.JSONModel",          
-          "preload": true         
+          "type": "sap.ui.model.json.JSONModel",
+          "preload": true
         }
       }
     },

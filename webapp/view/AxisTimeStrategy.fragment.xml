@@ -8,10 +8,15 @@
 
 	<axistime:ProportionZoomStrategy>
 		<axistime:totalHorizon>
-			<config:TimeHorizon startTime="20180601000000" endTime="20181231000000"/>
+			<config:TimeHorizon 
+				startTime="20260923000000" 
+				endTime="20261010000000"/>
 		</axistime:totalHorizon>
+		
 		<axistime:visibleHorizon>
-			<config:TimeHorizon startTime="20180701000000" endTime="20180815000000"/>
+			<config:TimeHorizon 
+				startTime="20260924060000" 
+				endTime="20261002120000"/>
 		</axistime:visibleHorizon>
 	</axistime:ProportionZoomStrategy>
 

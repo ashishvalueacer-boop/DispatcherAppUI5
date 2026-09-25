@@ -1,0 +1,399 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.f"
+    xmlns:mc="sap.suite.ui.microchart">
+
+    <Page
+        id="aiAnalyticsPage"
+        class="aiAnalyticsPage"
+        title="AI Analytics Dashboard"
+        showNavButton="true"
+        navButtonPress=".onCloseAIAnalytics">
+
+        <content>
+
+            <VBox class="aiAnalyticsContent">
+
+                <!-- KPI CARDS -->
+
+                <HBox
+                    class="aiAnalyticsKpiRow"
+                    alignItems="Stretch"
+                    wrap="Wrap"
+                    justifyContent="SpaceBetween">
+
+                    <GenericTile
+                        class="aiAnalyticsKpiTile"
+                        header="AI Adoption">
+                        <TileContent>
+                            <ObjectNumber
+                                class="aiAnalyticsKpiValue"
+                                number="{analytics>/aiAdoption}"
+                                unit="%"
+                                state="Success"/>
+                        </TileContent>
+                    </GenericTile>
+
+                    <GenericTile
+                        class="aiAnalyticsKpiTile"
+                        header="FO Coverage">
+
+                        <TileContent>
+                            <ObjectNumber
+                                class="aiAnalyticsKpiValue"
+                                number="{analytics>/foCoverage}"
+                                unit="%"
+                                state="Success"/>
+                        </TileContent>
+
+                    </GenericTile>
+
+                    <GenericTile
+                        class="aiAnalyticsKpiTile"
+                        header="Planning Score">
+
+                        <TileContent>
+                            <ObjectNumber
+                                class="aiAnalyticsKpiValue"
+                                number="{analytics>/planningScore}"
+                                state="Success"/>
+                        </TileContent>
+
+                    </GenericTile>
+
+                    <GenericTile
+                        class="aiAnalyticsKpiTile"
+                        header="Compliance">
+
+                        <TileContent>
+                            <ObjectNumber
+                                class="aiAnalyticsKpiValue"
+                                number="{analytics>/complianceScore}"
+                                unit="%"
+                                state="Success"/>
+                        </TileContent>
+
+                    </GenericTile>
+
+                    <GenericTile
+                        class="aiAnalyticsKpiTile"
+                        header="Cost Savings">
+
+                        <TileContent>
+                            <ObjectNumber
+                                class="aiAnalyticsKpiValue"
+                                number="{analytics>/costSavings}"
+                                unit="€"
+                                state="Success"/>
+                        </TileContent>
+
+                    </GenericTile>
+
+                </HBox>
+
+                <!-- SECTION 1 -->
+
+                <HBox class="aiAnalyticsRow" width="100%">
+
+                    <!-- AI VS MANUAL -->
+
+                    <Panel
+                        class="aiAnalyticsPanel aiAnalyticsPanelFull"
+                        width="100%"
+                        headerText="AI vs Manual Planning">
+
+                        <Table
+                            class="aiAnalyticsTable"
+                            growing="true"
+                            growingScrollToLoad="false"
+                            showSeparators="Inner"
+                            items="{analytics>/aiVsManual}">
+
+                            <columns>
+
+                                <Column>
+                                    <Text text="Metric"/>
+                                </Column>
+
+                                <Column>
+                                    <Text text="AI"/>
+                                </Column>
+
+                                <Column>
+                                    <Text text="Manual"/>
+                                </Column>
+
+                            </columns>
+
+                            <items>
+
+                                <ColumnListItem>
+
+                                    <cells>
+                                        <Text text="{analytics>metric}"/>
+                                        <Text text="{analytics>ai}"/>
+                                        <Text text="{analytics>manual}"/>
+                                    </cells>
+
+                                </ColumnListItem>
+
+                            </items>
+
+                        </Table>
+
+                    </Panel>
+
+                </HBox>
+
+                <!-- SECTION 2 -->
+
+                <HBox class="aiAnalyticsRow aiAnalyticsThreePanelRow" width="100%">
+
+                    <!-- PROPOSAL ACCEPTANCE -->
+
+                    <Panel
+                        class="aiAnalyticsPanel aiAnalyticsPanelThird aiAnalyticsAcceptancePanel"
+                        width="33.333%"
+                        headerText="AI Proposal Acceptance">
+
+                        <VBox class="aiAnalyticsPanelBody aiAnalyticsAcceptance">
+
+                            <HBox
+                                class="aiAnalyticsAcceptanceMetrics"
+                                width="100%"
+                                justifyContent="SpaceBetween">
+
+                                <ObjectStatus
+                                    class="aiAnalyticsAcceptanceMetric"
+                                    text="Generated : 542"
+                                    icon="sap-icon://generate-shortcut"/>
+
+                                <ObjectStatus
+                                    class="aiAnalyticsAcceptanceMetric"
+                                    text="Accepted : 489"
+                                    icon="sap-icon://accept"
+                                    state="Success"/>
+
+                                <ObjectStatus
+                                    class="aiAnalyticsAcceptanceMetric"
+                                    text="Rejected : 53"
+                                    icon="sap-icon://decline"
+                                    state="Error"/>
+
+                            </HBox>
+
+                            <mc:HarveyBallMicroChart
+                                class="aiAnalyticsAcceptanceChart"
+                                size="M"
+                                total="100">
+
+                                <mc:items>
+
+                                    <mc:HarveyBallMicroChartItem
+                                        fraction="90"
+                                        color="Good"/>
+
+                                </mc:items>
+
+                            </mc:HarveyBallMicroChart>
+
+                        </VBox>
+
+                    </Panel>
+
+                    <!-- ASSIGNMENT QUALITY -->
+
+                    <Panel
+                        class="aiAnalyticsPanel aiAnalyticsPanelThird"
+                        width="33.333%"
+                        headerText="Assignment Quality">
+
+                        <List
+                            items="{analytics>/assignmentQuality}">
+
+                            <CustomListItem class="aiAnalyticsListItem">
+
+                                <VBox>
+
+                                    <Text text="{analytics>metric}"/>
+
+                                    <ProgressIndicator
+                                        percentValue="{analytics>score}"
+                                        displayValue="{analytics>score}%"/>
+
+                                </VBox>
+
+                            </CustomListItem>
+
+                        </List>
+
+                    </Panel>
+
+                    <!-- DRIVER UTILIZATION -->
+
+                    <Panel
+                        class="aiAnalyticsPanel aiAnalyticsPanelThird"
+                        width="33.333%"
+                        headerText="Driver Utilization">
+
+                        <List
+                            items="{analytics>/driverUtilization}">
+
+                            <CustomListItem class="aiAnalyticsListItem">
+
+                                <VBox>
+
+                                    <Text text="{analytics>driverName}"/>
+
+                                    <ProgressIndicator
+                                        percentValue="{analytics>utilization}"
+                                        displayValue="{analytics>utilization}%"/>
+
+                                </VBox>
+
+                            </CustomListItem>
+
+                        </List>
+
+                    </Panel>
+
+                </HBox>
+
+                <!-- SECTION 3 -->
+
+                <HBox class="aiAnalyticsRow aiAnalyticsTwoPanelRow" width="100%">
+
+                    <Panel
+                        class="aiAnalyticsPanel aiAnalyticsPanelHalf aiAnalyticsStatusPanel"
+                        width="50%"
+                        headerText="Compliance Analytics">
+
+                        <ObjectStatus
+                            text="Driving Time Violations : 0"
+                            icon="sap-icon://locked"
+                            state="Success"/>
+
+                        <ObjectStatus
+                            text="Rest Time Violations : 0"
+                            icon="sap-icon://locked"
+                            state="Success"/>
+
+                        <ObjectStatus
+                            text="Weekly Limit Violations : 0"
+                            icon="sap-icon://locked"
+                            state="Success"/>
+
+                    </Panel>
+
+                    <Panel
+                        class="aiAnalyticsPanel aiAnalyticsPanelHalf aiAnalyticsStatusPanel"
+                        width="50%"
+                        headerText="Optimization Forecast">
+
+                        <ObjectStatus
+                            text="Drivers Used : 22"
+                            icon="sap-icon://employee"/>
+
+                        <ObjectStatus
+                            text="Empty Miles Reduction : -11%"
+                            icon="sap-icon://journey-arrive"
+                            state="Success"/>
+
+                        <ObjectStatus
+                            text="Idle Time Reduction : -18%"
+                            icon="sap-icon://history"
+                            state="Success"/>
+
+                        <ObjectStatus
+                            text="Planning Score : 87"
+                            icon="sap-icon://performance"
+                            state="Success"/>
+
+                    </Panel>
+
+                </HBox>
+
+                <!-- AI INSIGHTS -->
+
+                <Panel
+                    class="aiAnalyticsPanel aiAnalyticsPanelFull"
+                    headerText="AI Insights">
+
+                    <MessageStrip
+                        text="7 Drivers are underutilized."
+                        type="Warning"
+                        showIcon="true"/>
+
+                    <MessageStrip
+                        text="Empty mileage can be reduced by 14%."
+                        type="Success"
+                        showIcon="true"/>
+
+                    <MessageStrip
+                        text="3 Freight Orders remain unassigned."
+                        type="Information"
+                        showIcon="true"/>
+
+                </Panel>
+
+                <!-- EXPLAINABILITY -->
+
+                <Panel
+                    class="aiAnalyticsPanel aiAnalyticsPanelFull aiAnalyticsExplainability"
+                    headerText="Assignment Explainability">
+
+                    <VBox class="aiAnalyticsExplainabilityBody">
+
+                        <Title
+                            text="FO100045 → Driver D001"/>
+
+                        <ObjectStatus
+                            icon="sap-icon://accept"
+                            text="Driver Available"/>
+
+                        <ObjectStatus
+                            icon="sap-icon://accept"
+                            text="Vehicle Available"/>
+
+                        <ObjectStatus
+                            icon="sap-icon://accept"
+                            text="Within Shift Hours"/>
+
+                        <ObjectStatus
+                            icon="sap-icon://accept"
+                            text="Lowest Empty Mileage"/>
+
+                        <ObjectStatus
+                            icon="sap-icon://accept"
+                            text="Balanced Workload"/>
+
+                        <ProgressIndicator
+                            percentValue="92"
+                            displayValue="Confidence 92%"
+                            state="Success"/>
+
+                    </VBox>
+
+                </Panel>
+
+            </VBox>
+
+        </content>
+
+        <footer>
+            <Toolbar>
+                <ToolbarSpacer/>
+
+            <Button
+                class="aiAnalyticsCloseButton"
+                text="Close"
+                icon="sap-icon://decline"
+                press=".onCloseAIAnalytics"/>
+
+            </Toolbar>
+        </footer>
+
+    </Page>
+
+</core:FragmentDefinition>

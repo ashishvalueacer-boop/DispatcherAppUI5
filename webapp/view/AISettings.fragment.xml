@@ -1,0 +1,274 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form">
+
+    <Dialog
+        id="aiSettingsDialog"
+        title="AI Optimization Parameters"
+        contentWidth="900px"
+        contentHeight="700px"
+        draggable="true"
+        resizable="true">
+
+        <content>
+
+            <VBox class="sapUiMediumMargin">
+
+                <!-- Strategy -->
+
+                <Panel
+                    expandable="true"
+                    expanded="true">
+
+                    <headerToolbar>
+                        <Toolbar>
+                            <core:Icon src="sap-icon://strategy"/>
+                            <Title text="AI Optimization Strategy"/>
+                        </Toolbar>
+                    </headerToolbar>
+
+                    <RadioButtonGroup
+                        selectedIndex="{ai>/strategyIndex}">
+
+                        <buttons>
+
+                            <RadioButton
+                                text="Cost Optimized"/>
+
+                            <RadioButton
+                                text="Balanced"/>
+
+                            <RadioButton
+                                text="Service Level Optimized"/>
+                        </buttons>
+
+                    </RadioButtonGroup>
+
+                </Panel>
+
+                <!-- EU Regulations -->
+
+                <!-- Optimization Settings -->
+
+                <Panel
+                    expandable="true"
+                    expanded="true"
+                    headerText="Driver Assignment Optimization">
+
+                    <headerToolbar>
+                        <Toolbar>
+                            <core:Icon class="sapUiSmallMarginEnd" src="sap-icon://ai" size="1.25rem" />
+                            <Title text="Driver Assignment Optimization"/>
+                        </Toolbar>
+                    </headerToolbar>
+
+                    <Text
+                        text="Configure how AI assigns Freight Orders to Drivers."
+                        class="sapUiSmallMarginBottom"/>
+
+                    <!-- Shift Time -->
+
+                    <VBox class="sapUiSmallMarginTop">
+
+                        <Label
+                            text="Driving Outside Shift Time"/>
+
+                        <Slider
+                            min="0"
+                            max="8"
+                            value="{ai>/outsideShiftHours}"
+                            width="100%"/>
+
+                        <ObjectStatus
+                            icon="sap-icon://lateness"
+                            text="{ai>/outsideShiftHours} Hours"/>
+                    </VBox>
+
+                    <!-- Workload -->
+
+                    <VBox class="sapUiSmallMarginTop">
+
+                        <Label
+                            text="Workload Harmonisation Factor"/>
+
+                        <Slider
+                            min="0"
+                            max="100"
+                            value="{ai>/workloadFactor}"
+                            width="100%"/>
+
+                        <ObjectStatus
+                            icon="sap-icon://employee"
+                            text="{ai>/workloadFactor} %"/>
+                    </VBox>
+
+                    <!-- Idle Time -->
+
+                    <VBox class="sapUiSmallMarginTop">
+
+                        <Label
+                            text="Maximum Idle Time"/>
+
+                        <Slider
+                            min="0"
+                            max="12"
+                            value="{ai>/maxIdleTime}"
+                            width="100%"/>
+
+                        <ObjectStatus
+                            icon="sap-icon://history"
+                            text="{ai>/maxIdleTime} Hours"/>
+                    </VBox>
+
+                </Panel>
+
+                <!-- Optimization Preferences -->
+
+                <Panel
+                    expandable="true"
+                    expanded="true">
+
+                    <headerToolbar>
+                        <Toolbar>
+                            <core:Icon src="sap-icon://process"/>
+                            <Title text="Optimization Preferences"/>
+                        </Toolbar>
+                    </headerToolbar>
+
+                    <CheckBox
+                        text="Prioritize Driver Preferences"
+                        selected="{ai>/driverPreference}"/>
+
+                    <CheckBox
+                        text="Minimize Empty Miles"
+                        selected="{ai>/emptyMiles}"/>
+
+                    <CheckBox
+                        text="Respect Home Location Constraint"
+                        selected="{ai>/homeLocation}"/>
+
+                    <CheckBox
+                        text="Enable Overtime Optimization"
+                        selected="{ai>/overtimeOptimization}"/>
+
+                    <CheckBox
+                        text="Enable Rescheduling of Loaded Fright Orders (Early Starter)"
+                        selected="{ai>/rescheduling}"/>
+
+                </Panel>
+
+
+                <Panel
+                    expandable="true"
+                    expanded="true">
+
+                    <headerToolbar>
+                        <Toolbar>
+                            <core:Icon src="sap-icon://locked"/>
+                            <Title text="EU Driver Regulations (Read Only)"/>
+                        </Toolbar>
+                    </headerToolbar>
+
+                    <MessageStrip
+                        type="Information"
+                        showIcon="true"
+                        text="System enforced compliance constraints. These values cannot be modified by dispatchers."/>
+
+                    <f:SimpleForm
+                        editable="false"
+                        layout="ResponsiveGridLayout">
+
+                        <Label text="Maximum Daily Driving Time"/>
+                        <Text text="9 Hours"/>
+
+                        <Label text="Extended Daily Driving"/>
+                        <Text text="10 Hours (Twice Weekly)"/>
+
+                        <Label text="Weekly Driving Limit"/>
+                        <Text text="56 Hours"/>
+
+                        <Label text="Fortnight Driving Limit"/>
+                        <Text text="90 Hours"/>
+
+                        <Label text="Mandatory Break"/>
+                        <Text text="45 Minutes after 4.5 Hours"/>
+
+                        <Label text="Daily Rest"/>
+                        <Text text="11 Hours"/>
+
+                        <Label text="Reduced Daily Rest"/>
+                        <Text text="9 Hours"/>
+
+                        <Label text="Weekly Rest"/>
+                        <Text text="45 Hours"/>
+
+                        <Label text="Maximum Consecutive Working Days"/>
+                        <Text text="6 Days"/>
+
+                    </f:SimpleForm>
+
+                </Panel>
+
+                <!-- Forecast -->
+
+                <Panel>
+
+                    <headerToolbar>
+                        <Toolbar>
+                            <core:Icon src="sap-icon://line-chart"/>
+                            <Title text="Optimization Impact Forecast"/>
+                        </Toolbar>
+                    </headerToolbar>
+
+                    <ObjectStatus
+                        icon="sap-icon://employee-pane"
+                        text="Drivers Utilized : 22 (+3%)"/>
+
+                    <ObjectStatus
+                        icon="sap-icon://journey-arrive"
+                        text="Empty Miles Reduction : -11%"/>
+
+                    <ObjectStatus
+                        icon="sap-icon://time-entry-request"
+                        text="Idle Time Reduction : -18%"/>
+
+                    <ObjectStatus
+                        icon="sap-icon://shipping-status"
+                        text="FO Coverage : 98%"/>
+
+                    <ObjectStatus
+                        icon="sap-icon://performance"
+                        text="Planning Score : 87/100"
+                        state="Success"/>
+
+                </Panel>
+
+            </VBox>
+
+        </content>
+
+        <beginButton>
+
+            <Button
+                text="Apply"
+                icon="sap-icon://accept"
+                type="Emphasized"
+                press=".onApplyAISettings"/>
+
+        </beginButton>
+
+        <endButton>
+
+            <Button
+                text="Reset"
+                icon="sap-icon://refresh"
+                press=".onResetAISettings"/>
+
+        </endButton>
+
+        
+
+    </Dialog>
+
+</core:FragmentDefinition>

@@ -11,6 +11,7 @@
 	core:require="{
 		formatMessage: 'sap/base/strings/formatMessage'
 	}">
+	
 	<gnt2:GanttChartWithTable id="Truck" ghostAlignment="Start" adhocLineLayer="Bottom"
 			shapeSelectionMode = "Multiple"
 			enableChartOverflowToolbar="true"
@@ -18,75 +19,260 @@
 			shapeDrop=".onShapeDrop"
 			shapeResize=".onOrderRescheduled"
 			shapeDoubleClick=".onShapeDoubleClick"
-			>
-		<gnt2:table>
+			class="truckGanttCard">
+			
+		<gnt2:table >
+		
 			<Table
 				selectionMode="Single"
 				selectionBehavior="RowSelector"
 				enableColumnReordering="true"
 				fixedColumnCount = "1"
+				class="truckTable"
 				rows="{
 					path: 'data>/Resources',
 					parameters: {
-						operationMode: 'Server',
-						expand: 'ResourceToRequirements/OrderToUtilization/UtilizationToItems'
+						operationMode: 'Server'						
 					}
 				}">
 				<extension>
-					<m:OverflowToolbar>
+					<m:OverflowToolbar class="truckToolbar">
+						<m:Title text="Vehicle Planning" level="H2"/> 
+						<m:ToolbarSpacer/>
 						<m:Button icon="sap-icon://expand-all" type="Transparent" press=".showUtilization"/>
 						<m:Button icon="sap-icon://collapse-all" type="Transparent" press=".hideUtilization"/>
+						<m:Button icon="sap-icon://refresh"/>						
 					</m:OverflowToolbar>
 				</extension>
 				<rowMode>
-					<rm:Auto minRowCount="1"/>
+					<rm:Auto minRowCount="5"/>
 				</rowMode>
 				<rowSettingsTemplate>
-					<gnt2:GanttRowSettings
-						rowId="{data>ResourceID}"
-						shapes1="{
-							path: 'data>ResourceToRequirements',
-							templateShareable:true
-						}"
-						shapes2="{
-							path: 'data>ResourceToRequirements',
-							templateShareable:true
-						}">
+					<gnt2:GanttRowSettings rowId="{data>resourceId}" shapes1="{data>AvailabilityShapes}" shapes2="{data>FOShapes}">						
 						<gnt2:calendars>
-							<gnt2:BaseCalendar shapeId="{data>CalendarName}" calendarName="{data>CalendarName}" fill="#000"/>
-						</gnt2:calendars>
-						<gnt2:shapes1>
+							<gnt2:BaseCalendar shapeId="{data>resourceId}" calendarName="{data>resourceId}" fill="#e0ded6"/>
+						</gnt2:calendars> 
+						 <gnt2:shapes1>
+							<gnt2:BaseDiamond>
+							</gnt2:BaseDiamond>	
+
 							<gnt2:BaseRectangle
-									shapeId="{data>RequirementID}"
-									time="{data>StartTime}" endTime="{data>EndTime}" fill="#99D101"
+								shapeId="{data>shapeId}"
+								time="{
+								path:'data>StartTime',
+								formatter:'.formatter.dateToObject'
+								}"
+								endTime="{
+								path:'data>EndTime',
+								formatter:'.formatter.dateToObject'
+								}"
+								fill="#22C55E"
+								height="25"							
+								countInBirdEye="true"
+								showTitle="true"
+								tooltip="{
+											parts: [
+												'i18n>VehicleTooltip',
+												'data>resourceId',
+												'data>StartTime',
+												'data>EndTime'
+											],
+											formatter: 'formatMessage'
+									}"
+								expandable="true" selectable="true" draggable="true" resizable="true"/>					
+
+							<!-- <gnt2:BaseRectangle
+								    visible="{= ${data>AvailabilityShapes/0} ? true : false }"
+									shapeId="{data>AvailabilityShapes/0/shapeId}"
+									time="{
+        								path: 'data>AvailabilityShapes/0/StartTime',
+        								formatter: '.formatter.dateToObject'}"
+									endTime="{
+        								path: 'data>AvailabilityShapes/0/EndTime',
+        								formatter: '.formatter.dateToObject'}"
+									 fill="#99D101"
 									countInBirdEye="true" height="25"
 									title = "{
 												parts:[
-													{ path: 'data>RequirementID' },
-													{ path:'data>SourceLocation' },
-													{ path:'data>DestinationLocation' }
+													{ path:'' }
+																								
 												],
 												formatter: '.formatter.orderTitle'
 											}"
 									showTitle="true"
 									tooltip="{
 											parts: [
-												'i18n>freightOrderTooltip',
-												'data>RequirementID',
-												'data>SourceLocation',
-												'data>DestinationLocation',
-												'data>StartTime',
-												'data>EndTime'
+												'i18n>VehicleTooltip',
+												'data>resourceId',
+												'data>AvailabilityShapes/0/StartTime',
+												'data>AvailabilityShapes/0/EndTime'
 											],
 											formatter: 'formatMessage'
 									}"
 									expandable="true" selectable="true" draggable="true" resizable="true"/>
+
+									<gnt2:BaseRectangle
+								    visible="{= ${data>AvailabilityShapes/1} ? true : false }"
+									shapeId="{data>AvailabilityShapes/1/shapeId}"
+									time="{
+        								path: 'data>AvailabilityShapes/1/StartTime',
+        								formatter: '.formatter.dateToObject'}"
+									endTime="{
+        								path: 'data>AvailabilityShapes/1/EndTime',
+        								formatter: '.formatter.dateToObject'}"
+									 fill="#99D101"
+									countInBirdEye="true" height="25"
+									title = "{
+												parts:[
+													{ path:'' }
+																										
+												],
+												formatter: '.formatter.orderTitle'
+											}"
+									showTitle="true"
+									tooltip="{
+											parts: [
+												'i18n>VehicleTooltip',
+												'data>AvailabilityShapes/1/resourceId',
+												'data>AvailabilityShapes/1/StartTime',
+												'data>AvailabilityShapes/1/EndTime'
+											],
+											formatter: 'formatMessage'
+									}"
+									expandable="true" selectable="true" draggable="true" resizable="true"/>
+
+									<gnt2:BaseRectangle
+								    visible="{= ${data>AvailabilityShapes/2} ? true : false }"
+									shapeId="{data>AvailabilityShapes/2/shapeId}"
+									time="{
+        								path: 'data>AvailabilityShapes/2/StartTime',
+        								formatter: '.formatter.dateToObject'}"
+									endTime="{
+        								path: 'data>AvailabilityShapes/2/EndTime',
+        								formatter: '.formatter.dateToObject'}"
+									 fill="#99D101"
+									countInBirdEye="true" height="25"
+									title = "{
+												parts:[
+													{ path:'' }												
+												],
+												formatter: '.formatter.orderTitle'
+											}"
+									showTitle="true"
+									tooltip="{
+											parts: [
+												'i18n>VehicleTooltip',
+												'data>AvailabilityShapes/2/resourceId',
+												'data>AvailabilityShapes/2/StartTime',
+												'data>AvailabilityShapes/2/EndTime'
+											],
+											formatter: 'formatMessage'
+									}"
+									expandable="true" selectable="true" draggable="true" resizable="true"/>
+
+									<gnt2:BaseRectangle
+								    visible="{= ${data>AvailabilityShapes/3} ? true : false }"
+									shapeId="{data>AvailabilityShapes/3/shapeId}"
+									time="{
+        								path: 'data>AvailabilityShapes/3/StartTime',
+        								formatter: '.formatter.dateToObject'}"
+									endTime="{
+        								path: 'data>AvailabilityShapes/3/EndTime',
+        								formatter: '.formatter.dateToObject'}"
+									 fill="#99D101"
+									countInBirdEye="true" height="25"
+									title = "{
+												parts:[
+													{ path:'' }
+																								
+												],
+												formatter: '.formatter.orderTitle'
+											}"
+									showTitle="true"
+									tooltip="{
+											parts: [
+												'i18n>VehicleTooltip',
+												'data>AvailabilityShapes/3/resourceId',
+												'data>AvailabilityShapes/3/StartTime',
+												'data>AvailabilityShapes/3/EndTime'
+											],
+											formatter: 'formatMessage'
+									}"
+									expandable="true" selectable="true" draggable="true" resizable="true"/>
+
+									<gnt2:BaseRectangle
+								    visible="{= ${data>AvailabilityShapes/4} ? true : false }"
+									shapeId="{data>AvailabilityShapes/4/shapeId}"
+									time="{
+        								path: 'data>AvailabilityShapes/4/StartTime',
+        								formatter: '.formatter.dateToObject'}"
+									endTime="{
+        								path: 'data>AvailabilityShapes/4/EndTime',
+        								formatter: '.formatter.dateToObject'}"
+									 fill="#99D101"
+									countInBirdEye="true" height="25"
+									title = "{
+												parts:[
+													{ path:'' }
+												],
+												formatter: '.formatter.orderTitle'
+											}"
+									showTitle="true"
+									tooltip="{
+											parts: [
+												'i18n>VehicleTooltip',
+												'data>AvailabilityShapes/4/resourceId',
+												'data>AvailabilityShapes/4/StartTime',
+												'data>AvailabilityShapes/4/EndTime'
+											],
+											formatter: 'formatMessage'
+									}"
+									expandable="true" selectable="true" draggable="true" resizable="true"/> -->
+
+									
 						</gnt2:shapes1>
+						<!-- Assigned Freight Orders -->
 						<gnt2:shapes2>
+							<gnt2:BaseRectangle
+								shapeId="{data>shapeId}"
+								time="{
+								path:'data>StartTime',
+								formatter:'.formatter.dateToObject'
+								}"
+								endTime="{
+								path:'data>EndTime',
+								formatter:'.formatter.dateToObject'
+								}"
+								fill="#2563EB"
+								stroke="#ffffff"
+								strokeWidth="2"
+								height="32"							
+								countInBirdEye="true"
+								showTitle="true"
+								title = "{
+												parts:[
+													{ path:'data>Title' }
+												],
+												formatter: '.formatter.orderTitle'
+											}"
+								tooltip="{
+											parts: [
+												'i18n>VehicleTooltip',
+												'data>Title',
+												'data>StartTime',
+												'data>EndTime'
+											],
+											formatter: 'formatMessage'
+									}"									
+								
+								expandable="false" selectable="false" draggable="false" resizable="false"/>	
+						</gnt2:shapes2>
+
+						<!-- <gnt2:shapes2>
 							<demokit:UtilizationGroup shapeId="{data>UtilizationID}" expandable="true">
 								<demokit:utilizationLine>
 									<gnt2:UtilizationLineChart showMiddleLine="true" time="{data>StartTime}" endTime="{data>EndTime}"
-										shapeId="{data>RequirementID}" scheme="truck_to_ulc"
+										shapeId="{data>resourceId}" scheme="truck_to_ulc"
 										dimensions="{path: 'data>OrderToUtilization',templateShareable: true}">
 										<gnt2:UtilizationDimension name="{data>UtilizationName}" dimensionColor="{data>Color}"
 											periods="{path:'data>UtilizationToItems',templateShareable: true}">
@@ -95,40 +281,28 @@
 									</gnt2:UtilizationLineChart>
 								</demokit:utilizationLine>
 							</demokit:UtilizationGroup>
-						</gnt2:shapes2>
+						</gnt2:shapes2>  -->
 					</gnt2:GanttRowSettings>
 				</rowSettingsTemplate>
 				<columns>
-					<Column sortProperty="ResourceID" filterProperty="ResourceID">
-						<m:Text text="Resource ID"/>
+					<Column sortProperty="resourceId" filterProperty="resourceId">
+						<m:Text text="Vehicle ID"/>
 						<template>
-							<m:Label text="{data>ResourceID}"/>
+							<m:Label text="{data>resourceId}"/>
 						</template>
 					</Column>
-					<Column sortProperty="Description" filterProperty="Description">
-						<m:Text text="Description"/>
+					<!-- <Column sortProperty="resourceType" filterProperty="resourceType">
+						<m:Text text="Resource Type"/>
 						<template>
-							<m:Label text="{data>Description}"/>
+							<m:Label text="{data>resourceType}"/>
 						</template>
-					</Column>
-					<Column sortProperty="Capacity" filterProperty="Capacity">
-						<m:Text text="Capacity" />
+					</Column> -->
+					<Column sortProperty="description" filterProperty="description">
+						<m:Text text="Vehicle Description" />
 						<template>
-							<m:Label text="{data>Capacity}"/>
+							<m:Label text="{data>description}"/>
 						</template>
-					</Column>
-					<Column sortProperty="UintOfMeasure" filterProperty="UintOfMeasure">
-						<m:Text text="Unit of Measure" />
-						<template>
-							<m:Label text="{data>UintOfMeasure}"/>
-						</template>
-					</Column>
-					<Column sortProperty="MaximumUtilization" filterProperty="MaximumUtilization">
-						<m:Text text="Maximum Utilization" />
-						<template>
-							<m:Label text="{data>MaximumUtilization}"/>
-						</template>
-					</Column>
+					</Column>					
 				</columns>
 			</Table>
 		</gnt2:table>
@@ -142,13 +316,13 @@
 			<core:Fragment fragmentName="dispatcherns.dispatcherproj.view.AxisTimeStrategy" type="XML"/>
 		</gnt2:axisTimeStrategy>
 
-		<gnt2:calendarDef>
+		<!-- <gnt2:calendarDef>
 			<gnt-cal:CalendarDefs defs="{ path:'calc>/'}">
 				<gnt-cal:Calendar key="{calc>CalendarId}" timeIntervals="{path:'calc>Intervals', templateShareable: true}" backgroundColor="{= ${calc>CalendarId} === 'nwt' ? '#666' : '#ccc' }">
 					<gnt-cal:TimeInterval startTime="{calc>StartDateTime}" endTime="{calc>EndDateTime}"/>
 				</gnt-cal:Calendar>
 			</gnt-cal:CalendarDefs>
-		</gnt2:calendarDef>
+		</gnt2:calendarDef> -->
 
 	</gnt2:GanttChartWithTable>
 </core:FragmentDefinition>

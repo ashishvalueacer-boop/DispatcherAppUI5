@@ -18,6 +18,7 @@
 			shapeDrop=".onShapeDrop"
 			shapeResize=".onOrderRescheduled"
 			shapeDoubleClick=".onShapeDoubleClick"
+			class="resourceGanttCard"
 			>
 		<gnt2:table>
 			<Table
@@ -33,107 +34,67 @@
 					}
 				}">
 				<extension>
-					<m:OverflowToolbar>
+					<m:OverflowToolbar class="driverToolbar">
+						<m:Title text="Drivers Planning" level="H2"/> 
 						<m:Button icon="sap-icon://expand-all" type="Transparent" press=".showUtilization"/>
 						<m:Button icon="sap-icon://collapse-all" type="Transparent" press=".hideUtilization"/>
 					</m:OverflowToolbar>
 				</extension>
 				<rowMode>
-					<rm:Auto minRowCount="1"/>
+					<rm:Auto minRowCount="5"/>
 				</rowMode>
 				<rowSettingsTemplate>
 					<gnt2:GanttRowSettings
-						rowId="{data>DriverId}"
+						rowId="{data>driverId}"
 						shapes1="{
-							path: 'data>Drivers',
+							path: 'data>ResourceToDrivers',
 							templateShareable:true
 						}"
-						shapes2="{
-							path: 'data>Drivers',
-							templateShareable:true
-						}">
+						>
+						<!-- <gnt2:calendars>
+							<gnt2:BaseCalendar  shapeId="Weekend" calendarName="Weekend" fill="#e0ded6"/>
+						</gnt2:calendars> -->
 						<gnt2:calendars>
-							<gnt2:BaseCalendar shapeId="{data>CalendarName}" calendarName="{data>CalendarName}" fill="#000"/>
+							<gnt2:BaseCalendar shapeId="{data>driverId}" calendarName="{data>driverId}" fill="#b9d3e4"/>
 						</gnt2:calendars>
 						<gnt2:shapes1>
 							<gnt2:BaseRectangle
-									shapeId="{data>DriverId}"
+									shapeId="{data>driverId}"
 									time="{data>StartTime}" endTime="{data>EndTime}" fill="#99D101"
-									countInBirdEye="true" height="25"
-									title = "{
-												parts:[
-													{ path: 'data>DriverId' }
-													
-												],
-												formatter: '.formatter.orderTitle'
-											}"
-									showTitle="true"
-									tooltip="{
-											parts: [
-												'i18n>freightOrderTooltip',
-												'data>RequirementID',
-												'data>SourceLocation',
-												'data>DestinationLocation',
-												'data>StartTime',
-												'data>EndTime'
-											],
-											formatter: 'formatMessage'
-									}"
+									countInBirdEye="true" height="25"									
+									showTitle="true"									
 									expandable="true" selectable="true" draggable="true" resizable="true"/>
 						</gnt2:shapes1>
-						<gnt2:shapes2>
-							<demokit:UtilizationGroup shapeId="{data>UtilizationID}" expandable="true">
-								<demokit:utilizationLine>
-									<gnt2:UtilizationLineChart showMiddleLine="true" time="{data>StartTime}" endTime="{data>EndTime}"
-										shapeId="{data>RequirementID}" scheme="truck_to_ulc"
-										dimensions="{path: 'data>OrderToUtilization',templateShareable: true}">
-										<gnt2:UtilizationDimension name="{data>UtilizationName}" dimensionColor="{data>Color}"
-											periods="{path:'data>UtilizationToItems',templateShareable: true}">
-											<gnt2:UtilizationPeriod from="{data>StartTime}" to="{data>EndTime}" value="{data>Value}"/>
-										</gnt2:UtilizationDimension>
-									</gnt2:UtilizationLineChart>
-								</demokit:utilizationLine>
-							</demokit:UtilizationGroup>
+						<gnt2:shapes2>							
 						</gnt2:shapes2>
 					</gnt2:GanttRowSettings>
 				</rowSettingsTemplate>
 				<columns>
-					<Column sortProperty="DriverId" filterProperty="DriverId">
+					<Column sortProperty="driverId" filterProperty="driverId">
 						<m:Text text="Driver ID"/>
 						<template>
-							<m:Label text="{data>DriverId}"/>
+							<m:Label text="{data>driverId}"/>
 						</template>
 					</Column>
-					<!-- <Column sortProperty="Description" filterProperty="Description">
-						<m:Text text="Description"/>
+					<Column sortProperty="firstName" filterProperty="firstName">
+						<m:Text text="First Name"/>
 						<template>
-							<m:Label text="{data>Description}"/>
+							<m:Label text="{data>firstName}"/>
 						</template>
 					</Column>
-					<Column sortProperty="Capacity" filterProperty="Capacity">
-						<m:Text text="Capacity" />
+					<Column sortProperty="lastName" filterProperty="lastName">
+						<m:Text text="Last Name" />
 						<template>
-							<m:Label text="{data>Capacity}"/>
+							<m:Label text="{data>lastName}"/>
 						</template>
 					</Column>
-					<Column sortProperty="UintOfMeasure" filterProperty="UintOfMeasure">
-						<m:Text text="Unit of Measure" />
-						<template>
-							<m:Label text="{data>UintOfMeasure}"/>
-						</template>
-					</Column>
-					<Column sortProperty="MaximumUtilization" filterProperty="MaximumUtilization">
-						<m:Text text="Maximum Utilization" />
-						<template>
-							<m:Label text="{data>MaximumUtilization}"/>
-						</template>
-					</Column> -->
+					
 				</columns>
 			</Table>
 		</gnt2:table>
 
 		<gnt2:shapeSchemes>
-			<gnt2:ShapeScheme key="driver" primary="true"/>
+			<gnt2:ShapeScheme key="truck" primary="true"/>
 			<gnt2:ShapeScheme key="truck_to_ulc" rowSpan="2"/>
 		</gnt2:shapeSchemes>
 

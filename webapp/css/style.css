@@ -1,1 +1,431 @@
 /* Enter your custom styles here */
+/* AI analytics dashboard */
+.driverRegulationStatusSwitch {
+    min-width: 8rem;
+}
+
+.aiAnalyticsPage {
+    --analytics-ink: #153247;
+    --analytics-muted: #5f7482;
+    --analytics-accent: #0f8b8d;
+    --analytics-line: #dce8eb;
+    --analytics-surface: #ffffff;
+    --analytics-canvas: #f4f7f8;
+    background: var(--analytics-canvas);
+}
+
+.aiAnalyticsPage .sapMPageHeader {
+    background: var(--analytics-ink);
+    border-bottom: 3px solid var(--analytics-accent);
+}
+
+.aiAnalyticsPage .sapMPageHeader .sapMTitle {
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.aiAnalyticsPage .sapMPageScroll {
+    background: var(--analytics-canvas);
+    padding: 0;
+}
+
+.aiAnalyticsContent {
+    box-sizing: border-box;
+    gap: 1.25rem;
+    padding: 1.5rem;
+}
+
+.aiAnalyticsKpiRow {
+    align-items: stretch;
+    display: grid !important;
+    gap: 1rem;
+    grid-template-columns: repeat(5, minmax(13rem, 1fr));
+    width: 100%;
+}
+
+.aiAnalyticsKpiTile {
+    box-sizing: border-box;
+    height: 9rem;
+    min-width: 0;
+    width: 100% !important;
+    border: 1px solid var(--analytics-line);
+    border-top: 3px solid var(--analytics-accent);
+    border-radius: 0.65rem;
+    box-shadow: 0 5px 16px rgba(21, 50, 71, 0.08);
+    background: var(--analytics-surface);
+    transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.aiAnalyticsKpiTile:hover {
+    box-shadow: 0 8px 22px rgba(21, 50, 71, 0.14);
+    transform: translateY(-2px);
+}
+
+.aiAnalyticsKpiTile .sapMGTHdrContent {
+    box-sizing: border-box;
+    display: flex;
+    height: 3.5rem;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem;
+}
+
+.aiAnalyticsKpiTile .sapMGTHdrTxt {
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    color: var(--analytics-muted);
+    font-size: 0.8rem;
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.aiAnalyticsKpiTile .sapMTileCnt {
+    box-sizing: border-box;
+    display: flex;
+    height: 5.5rem;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 0.75rem 0.75rem;
+}
+
+.aiAnalyticsKpiTile .sapMTileCntContent {
+    width: 100%;
+    text-align: center;
+}
+
+.aiAnalyticsKpiValue {
+    display: block;
+    margin: 0.35rem auto 0;
+    width: 100% !important;
+    color: var(--analytics-ink);
+    font-size: 1.75rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.aiAnalyticsKpiValue .sapMObjectNumberText,
+.aiAnalyticsKpiValue .sapMObjectNumberUnit {
+    font-size: inherit;
+    font-weight: inherit;
+    vertical-align: baseline;
+}
+
+.aiAnalyticsRow {
+    align-items: stretch;
+    gap: 1rem;
+}
+
+.aiAnalyticsThreePanelRow {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 100%;
+}
+
+.aiAnalyticsTwoPanelRow {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+}
+
+.aiAnalyticsPanel {
+    box-sizing: border-box;
+    border: 1px solid var(--analytics-line);
+    border-radius: 0.65rem;
+    overflow: hidden;
+    background: var(--analytics-surface);
+    box-shadow: 0 4px 14px rgba(21, 50, 71, 0.06);
+}
+
+.aiAnalyticsPanelHalf {
+    flex: 1 1 0;
+    min-width: 0;
+    width: auto !important;
+}
+
+.aiAnalyticsPanelThird {
+    box-sizing: border-box;
+    height: 22rem;
+    min-width: 0;
+    width: 100% !important;
+}
+
+.aiAnalyticsPanelFull {
+    flex: 1 1 100%;
+    min-width: 0;
+    width: 100%;
+}
+
+.aiAnalyticsPanel .sapMPanelHdr {
+    box-sizing: border-box;
+    display: flex;
+    min-height: 3rem;
+    align-items: center;
+    padding: 1rem 1.15rem;
+    border-bottom: 1px solid var(--analytics-line);
+    background: var(--analytics-surface);
+    color: var(--analytics-ink);
+    font-size: 0.95rem;
+    font-weight: 700;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+    white-space: normal;
+}
+
+.aiAnalyticsPanel .sapMPanelContent {
+    padding: 1rem 1.15rem 1.15rem;
+}
+
+.aiAnalyticsPanelThird .sapMPanelContent {
+    box-sizing: border-box;
+    height: calc(22rem - 3rem);
+    overflow: auto;
+}
+
+.aiAnalyticsAcceptancePanel {
+    height: 22rem !important;
+    min-height: 22rem;
+}
+
+.aiAnalyticsAcceptancePanel .sapMPanelContent {
+    height: calc(22rem - 3rem) !important;
+}
+
+.aiAnalyticsTable .sapMListTblHeaderCell {
+    background: #eef5f6;
+    color: var(--analytics-muted);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.aiAnalyticsTable .sapMListTblCell {
+    color: var(--analytics-ink);
+}
+
+.aiAnalyticsPanelBody,
+.aiAnalyticsExplainabilityBody {
+    gap: 0.65rem;
+}
+
+.aiAnalyticsAcceptance {
+    box-sizing: border-box;
+    height: 100%;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.aiAnalyticsAcceptanceMetrics {
+    align-items: stretch;
+    gap: 0.75rem;
+}
+
+.aiAnalyticsAcceptanceMetric {
+    box-sizing: border-box;
+    flex: 1 1 0;
+    min-width: 0;
+    width: 33.333%;
+    padding: 0.65rem 0.5rem;
+    border: 1px solid var(--analytics-line);
+    border-radius: 0.5rem;
+    background: #f7fbfb;
+    text-align: center;
+}
+
+.aiAnalyticsAcceptanceMetric .sapMObjStatusText {
+    white-space: normal;
+}
+
+.aiAnalyticsAcceptance .sapSuiteHBMC,
+.aiAnalyticsAcceptanceChart {
+    height: 9rem !important;
+    width: 9rem !important;
+    margin-top: 0.35rem;
+}
+
+.aiAnalyticsListItem {
+    border-bottom: 1px solid #edf1f3;
+}
+
+.aiAnalyticsListItem .sapMCustomLIContent {
+    padding: 0.75rem 0;
+}
+
+.aiAnalyticsListItem .sapMText {
+    color: var(--analytics-ink);
+    font-weight: 600;
+}
+
+.aiAnalyticsListItem .sapMPI {
+    margin-top: 0.4rem;
+}
+
+.aiAnalyticsStatusPanel .sapMObjStatus {
+    display: block;
+    padding: 0.65rem 0.25rem;
+    border-bottom: 1px solid #edf1f3;
+}
+
+.aiAnalyticsStatusPanel .sapMObjStatus:last-child {
+    border-bottom: 0;
+}
+
+.aiAnalyticsPanelFull .sapMMsgStrip {
+    margin: 0.65rem 0;
+    border-radius: 0.5rem;
+}
+
+.aiAnalyticsExplainability .sapMTitle {
+    color: var(--analytics-ink);
+    font-size: 1rem;
+}
+
+.aiAnalyticsExplainabilityBody .sapMPI {
+    margin-top: 0.35rem;
+}
+
+.aiAnalyticsCloseButton .sapMBtnInner {
+    min-width: 6rem;
+    border-radius: 0.45rem;
+    font-weight: 600;
+}
+
+.dashboardHeader {
+   background:linear-gradient(
+90deg,
+#0A6ED1,
+#2563EB
+);
+color:white;
+padding:0.75rem;
+}
+.customGanttToolbar{
+background-color: #4b8ac9;
+border-bottom: 1px solid #d9d9d9;
+width: 70%;
+}
+
+.sapGanttChart{
+border-radius:8px;
+box-shadow:0 2px 8px rgba(0,0,0,0.08);
+}
+
+.sapGanttChartHeader{
+background:#f5f6f7;
+}
+.sapGanttChartSvg{
+background:#ffffff;
+}
+
+.truckGanttCard{
+border-radius:12px;
+background:#baccdf;
+box-shadow:0 0.125rem 0.75rem rgba(0,0,0,0.08);
+}
+
+.foGanttCard{
+border-radius:12px;
+background:#baccdf;
+box-shadow:0 0.125rem 0.75rem rgba(0,0,0,0.08);
+}
+
+.resourceGanttCard{
+border-radius:12px;
+background:#baccdf;
+box-shadow:0 0.125rem 0.75rem rgba(0,0,0,0.08);
+}
+
+.truckTable .sapUiTableColHdrCnt{
+background:#baccdf;
+border-bottom:1px solid #e5e7eb;
+}
+ 
+.truckTable .sapUiTableCol{
+font-weight:600;
+}
+/* Modern Toolbar */
+.truckToolbar{
+background:#baccdf;
+border-bottom:1px solid #e5e7eb;
+}
+
+.foToolbar{
+background:#baccdf;
+border-bottom:1px solid #e5e7eb;
+}
+.driverToolbar{
+background:#baccdf;
+border-bottom:1px solid #e5e7eb;
+}
+
+/* Alternate Row Coloring */
+.sapUiTableRowEven{
+background:#fafafa;
+}
+ 
+.sapUiTableRowOdd{
+background:#ffffff;
+}
+/* Highlight Selected Shape */
+.sapGanttSelectedShape{
+filter: drop-shadow(0px 0px 8px rgba(37,99,235,0.5));
+}
+
+@media (max-width: 720px) {
+    .aiAnalyticsContent {
+        padding: 1rem;
+    }
+
+    .aiAnalyticsRow {
+        flex-direction: column;
+    }
+
+    .aiAnalyticsThreePanelRow,
+    .aiAnalyticsTwoPanelRow {
+        display: flex !important;
+    }
+
+    .aiAnalyticsPanelHalf,
+    .aiAnalyticsPanelThird {
+        width: 100%;
+    }
+
+    .aiAnalyticsPanelThird {
+        height: auto !important;
+    }
+
+    .aiAnalyticsPanelThird .sapMPanelContent,
+    .aiAnalyticsAcceptancePanel .sapMPanelContent {
+        height: auto !important;
+    }
+
+    .aiAnalyticsAcceptancePanel {
+        height: auto !important;
+        min-height: 0;
+    }
+
+    .aiAnalyticsKpiTile {
+        min-width: 9rem;
+    }
+
+    .aiAnalyticsKpiTile .sapMGTHdrTxt {
+        white-space: normal;
+    }
+
+    .aiAnalyticsKpiRow {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .aiAnalyticsAcceptanceMetrics {
+        flex-direction: column;
+    }
+
+    .aiAnalyticsAcceptanceMetric {
+        width: 100%;
+    }
+}
